@@ -6,39 +6,36 @@ datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
-
-
 model User {
-  id             String       @id @default(cuid())
-  fullname       String
-  email          String       @unique
-  emailVerified  DateTime?
-  image          String?
-  password       String
-  createdAt      DateTime     @default(now())
-  updatedAt      DateTime     @updatedAt
+  id                    String                 @id @default(cuid())
+  fullname              String
+  email                 String                 @unique
+  image                 String?
+  password              String
+  createdAt             DateTime               @default(now())
+  updatedAt             DateTime               @updatedAt
+  isTwoFactorEnabled    Boolean                @default(true)
+  twoFactorConfirmation TwoFactorConfirmation?
 }
 
 model Patient {
-  id              String   @id @default(cuid())
-  nama            String
-  nik             String   @unique
-  jenis_kelamin   Gender
-  tanggal_lahir   DateTime
-  asal_daerah     String
-  pekerjaan_ayah  String
-  pekerjaan_ibu   String
-  dokter          String
-  klinis          String
-  diagnosa        String
-  terapi          String
-  operasi         String
-  outcome         String
-  fifth_survivor  String
+  id             String   @id @default(cuid())
+  nama           String
+  nik            String   @unique
+  jenis_kelamin  Gender
+  tanggal_lahir  DateTime
+  asal_daerah    String
+  pekerjaan_ayah String
+  pekerjaan_ibu  String
+  dokter         String
+  klinis         String
+  diagnosa       String
+  terapi         String
+  operasi        String
+  outcome        String
+  fifth_survivor String
 }
-
-
-model VerificationToken {
+model TwoFactorToken {
   id      String   @id @default(cuid())
   email   String
   token   String   @unique
@@ -46,20 +43,12 @@ model VerificationToken {
 
   @@unique([email, token])
 }
-
-model PasswordResetToken {
-  id      String   @id @default(cuid())
-  email   String
-  token   String   @unique
-  expires DateTime
-
-  @@unique([email, token])
+model TwoFactorConfirmation {
+  id     String @id @default(cuid())
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
-
-
-
 enum Gender {
   PRIA
   WANITA
 }
-

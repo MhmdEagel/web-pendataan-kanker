@@ -18,12 +18,12 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import DatePicker from "@/components/ui/date-picker";
-import kabupaten from "@/components/constants/kabupaten.constant";
 import { Textarea } from "@/components/ui/textarea";
 import ComboBox from "@/components/ui/combo-box";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
+import { kabupaten } from "@/components/constants/kabupaten.constant";
 
 export default function StorePatientData() {
   const router = useRouter()

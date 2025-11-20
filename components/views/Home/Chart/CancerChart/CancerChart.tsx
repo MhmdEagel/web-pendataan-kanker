@@ -66,7 +66,6 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 export function CancerChart({chartData}: {chartData: IChartData[] | null}) {
-  console.log(chartData)
   return (
     <ResponsiveContainer width={550}>
       <ChartContainer config={chartConfig} className="max-h-[420px]">

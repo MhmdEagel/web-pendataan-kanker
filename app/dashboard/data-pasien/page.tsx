@@ -16,7 +16,7 @@ export default function PatientDataPage() {
           </Button>
         </Link>
         <Suspense
-          fallback={<Skeleton className="w-full h-[420px] rounded-xl mt-4" />}
+          fallback={<Skeleton className="w-full h-[420px] rounded-xl mt-4 bg-slate-200" />}
         >
           <DataMustahikTable />
         </Suspense>

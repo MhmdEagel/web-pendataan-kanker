@@ -6,26 +6,26 @@ import { apiAuthPrefix, authRoutes, publicRoutes } from "./routes";
 const { auth } = NextAuth(authConfig);
 
 export default auth(async function proxy(req) {
-  // const { nextUrl } = req;
-  // const isLoggedIn = !!req.auth;
+  const { nextUrl } = req;
+  const isLoggedIn = !!req.auth;
 
-  // const isApiRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
-  // const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
-  // const isAuthRoute = authRoutes.includes(nextUrl.pathname);  
-  // if (isApiRoute) {
-  //   return NextResponse.next();
-  // }
+  const isApiRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
+  const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
+  const isAuthRoute = authRoutes.includes(nextUrl.pathname);
+  if (isApiRoute) {
+    return NextResponse.next();
+  }
 
-  // if (isAuthRoute) {
-  //   if (isLoggedIn) {
-  //     return NextResponse.redirect(new URL("/", nextUrl));
-  //   }
-  //   return NextResponse.next();
-  // }
+  if (isAuthRoute) {
+    if (isLoggedIn) {
+      return NextResponse.redirect(new URL("/dashboard", nextUrl));
+    }
+    return NextResponse.next();
+  }
 
-  // if (!isLoggedIn && !isPublicRoute) {
-  //   return NextResponse.redirect(new URL("/auth/login", nextUrl));
-  // }
+  if (!isLoggedIn && !isPublicRoute) {
+    return NextResponse.redirect(new URL("/auth/login", nextUrl));
+  }
 });
 
 export const config = {
