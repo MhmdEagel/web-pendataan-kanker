@@ -30,7 +30,7 @@ export default function Login() {
                 onSubmit={form.handleSubmit(handleFormLogin)}
               >
                 <div className="flex gap-4 justify-center items-center">
-                  <Image
+                 <Image
                     src={"/assets/logo/logo_riau.svg"}
                     width={60}
                     height={60}
