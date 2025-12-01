@@ -289,15 +289,15 @@ export default function StorePatientData() {
                             <SelectValue placeholder="Pilih Outcome Pasien" />
                           </SelectTrigger>
                           <SelectContent>
-                            <SelectItem value="drop out">Drop out</SelectItem>
-                            <SelectItem value="relaps/metastase">
+                            <SelectItem value="Drop Out">Drop out</SelectItem>
+                            <SelectItem value="Relaps/Metastase">
                               Relaps / Metastase
                             </SelectItem>
-                            <SelectItem value="mati">Mati</SelectItem>
-                            <SelectItem value="pindah layanan">
+                            <SelectItem value="Meninggal">Meninggal</SelectItem>
+                            <SelectItem value="Pindah Layanan">
                               Pindah layanan
                             </SelectItem>
-                            <SelectItem value="survivor"> Survivor</SelectItem>
+                            <SelectItem value="Survivor"> Survivor</SelectItem>
                           </SelectContent>
                         </Select>
                       </FormControl>

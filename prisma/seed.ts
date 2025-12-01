@@ -37,7 +37,13 @@ const klinisSet = ["Laboratorium", "Radiologi", "Klinis Umum"];
 const diagnosaSet = ["Kanker", "Tumor", "Infeksi", "Gastritis", "Asma"];
 const terapiSet = ["Kemoterapi", "Perawatan Intensif", "Obat Jalan"];
 const operasiSet = ["Transplantasi", "Operasi Minor", "Operasi Mayor"];
-const outcomeSet = ["Survivor", "Meninggal", "Dalam Perawatan"];
+const outcomeSet = [
+  "Drop Out",
+  "Relaps/Metastase",
+  "Meninggal",
+  "Pindah Layanan",
+  "Survivor",
+];
 const fifthSet = ["YA", "TIDAK"];
 
 const dokterSet = ["Udin", "Budi", "Siti", "Andi", "Rahmat"];
@@ -57,6 +63,8 @@ function randomTanggalLahir() {
 
 async function seed() {
   console.log("🌱 Memulai seeding patient...");
+
+  await prisma.patient.deleteMany();
 
   for (const daerah of kabupaten) {
     const jumlah = faker.number.int({ min: 100, max: 200 });

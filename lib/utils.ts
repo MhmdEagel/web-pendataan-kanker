@@ -19,7 +19,6 @@ export function generateDateString(date: Date) {
   return dateString;
 }
 
-
 export function getKabupatenColorAndId(
   kabupaten: string
 ): { id: string; fill: string } | null {
@@ -29,3 +28,4 @@ export function getKabupatenColorAndId(
   }
   return { id: res.id, fill: res.fill };
 }
+

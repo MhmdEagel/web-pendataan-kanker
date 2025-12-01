@@ -1,8 +1,8 @@
-import { getAllPatientCount, getPatientCount } from "@/data/patient";
+import { getAllPatientCount, getPatientCountWithFill } from "@/data/patient";
 import CancerChart from "../CancerChart";
 import { IChartData } from "../CancerChart/CancerChart";
 export default async function DataCancerChart() {
-  const data: IChartData[] | null = await getPatientCount();
+  const data: IChartData[] | null = await getPatientCountWithFill();
   const total = await getAllPatientCount();
   if (!data) {
     return;
