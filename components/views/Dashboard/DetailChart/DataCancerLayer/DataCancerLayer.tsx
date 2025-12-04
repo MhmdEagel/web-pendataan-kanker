@@ -1,7 +1,7 @@
 import { getAllPatientCountByStatus } from "@/data/patient";
 import { IChartStatusData } from "@/types/Chart";
-import { DetailChartBar } from "../DetailCancerChart/DetailCancerBarChart";
 import DetailTable from "../../DetailTable/DetailTable";
+import DetailChartBar from "../DetailChartBar";
 export default async function DataCancerLayer() {
   const data = await getAllPatientCountByStatus();
   if (!data) {
