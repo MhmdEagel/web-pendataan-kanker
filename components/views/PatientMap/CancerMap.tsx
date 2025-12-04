@@ -1,10 +1,10 @@
 "use client";
 
-import { MapContainer, GeoJSON, TileLayer } from "react-leaflet";
+import { MapContainer, GeoJSON, } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import "./style/map.css";
 
-export default function CancerMap({ kabupaten }: { kabupaten: any }) {
+export default function CancerMap({ kabupaten }) {
   const mapStyle = {
     fillColor: "white",
     fillOpacity: 1,
