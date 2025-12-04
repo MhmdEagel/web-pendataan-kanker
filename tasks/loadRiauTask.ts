@@ -1,4 +1,5 @@
 /* eslint-disable */
+// @ts-nocheck
 
 import legendItems from "@/components/views/PatientMap/entities/LegendItems";
 import { features } from "@/data/riau.json";
