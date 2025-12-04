@@ -1,4 +1,4 @@
-import { ChartBar, LogOut, Settings, Table } from "lucide-react";
+import { ChartBar, LogOut, Settings, Table, User } from "lucide-react";
 
 const SIDEBAR_ITEMS = [
   {
@@ -18,6 +18,12 @@ const SIDEBAR_ITEMS = [
       },
       {
         key: "dashboard-item-3",
+        label: "Manajemen User",
+        href: "/dashboard/manajemen-user",
+        icon: <User size={18} />,
+      },
+      {
+        key: "dashboard-item-4",
         label: "Pengaturan",
         href: "/dashboard/pengaturan",
         icon: <Settings size={18} />,

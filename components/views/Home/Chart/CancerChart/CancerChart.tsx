@@ -10,13 +10,9 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
+import { IChartData, IChartStatusData } from "@/types/Chart";
 export const description = "A pie chart with a legend";
 
-export interface IChartData {
-  kabupaten: string | undefined;
-  patients: number;
-  fill: string | undefined
-}
 
 const chartConfig = {
   patients: {
@@ -65,24 +61,32 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-export function CancerChart({chartData}: {chartData: IChartData[] | null}) {
+export function CancerChart({
+  chartData,
+  outcome,
+}: {
+  chartData: IChartData[] | null;
+  outcome: IChartStatusData[] | null
+}) {
   return (
     <ResponsiveContainer width={550}>
       <ChartContainer config={chartConfig} className="max-h-[420px]">
         <PieChart>
+          <Pie data={chartData!} label dataKey="patients" />
+          <ChartLegend
+            content={<ChartLegendContent nameKey="kabupaten" />}
+            className="-translate-y-2 flex-wrap gap-2  *:justify-center"
+          />
           <ChartTooltip
             content={
               <ChartTooltipContent
                 className="min-w-42"
                 nameKey="kabupaten"
+                indicator="dot"
+                outcome={outcome}
                 hideLabel
               />
             }
-          />
-          <Pie data={chartData!} label dataKey="patients" />
-          <ChartLegend
-            content={<ChartLegendContent nameKey="kabupaten" />}
-            className="-translate-y-2 flex-wrap gap-2  *:justify-center"
           />
         </PieChart>
       </ChartContainer>

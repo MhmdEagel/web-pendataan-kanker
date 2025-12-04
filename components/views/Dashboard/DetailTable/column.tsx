@@ -2,8 +2,7 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 
-interface StatusTable {
-  kabupaten: string;
+interface DetailTable {
   drop_out: number;
   meninggal: number;
   pindah_layanan: number;
@@ -11,16 +10,9 @@ interface StatusTable {
   survivor: number;
 }
 
-export const columns: ColumnDef<StatusTable>[] = [
-  {
-    id: "no",
-    header: "No",
-    cell: ({ row }) => row.index + 1,
-  },
-  {
-    accessorKey: "kabupaten",
-    header: "Kabupaten / Kota",
-  },
+// DetailTable[]
+
+export const columns: ColumnDef<DetailTable>[] = [
   {
     accessorKey: "drop_out",
     header: "Drop Out",
@@ -40,5 +32,19 @@ export const columns: ColumnDef<StatusTable>[] = [
   {
     accessorKey: "survivor",
     header: "Survivor",
+  },
+  {
+    header: "Total",
+    cell: ({ row }) => {
+      const data = row.original;
+      const total =
+        data.drop_out +
+        data.meninggal +
+        data.pindah_layanan +
+        data.relaps_metastase +
+        data.survivor;
+
+      return total;
+    },
   },
 ];

@@ -25,7 +25,6 @@ export default {
         return {
           id: user.id,
           email: user.email,
-          role: user.role,
           fullname: user.fullname ?? undefined,
         };
       },

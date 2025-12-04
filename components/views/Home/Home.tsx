@@ -24,7 +24,7 @@ export default function Home() {
           </div>
           <div className="text-center ">
             <h1 className="text-2xl font-bold">
-              Persebaran Pasien Kanker Provinsi Riau
+              Tabulasi Data Pasien Kanker Provinsi Riau
             </h1>
             <div className="text-lg">RSUD Arifin Achmad Provinsi Riau</div>
           </div>

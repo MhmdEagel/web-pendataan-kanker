@@ -27,7 +27,7 @@ export default function CancerMap({ kabupaten }: { kabupaten: any }) {
       dragging={false}
       scrollWheelZoom={false}
     >
-      {/* <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" /> */}
+      {/* <TileLayer url="https://{s}.tile.opxenstreetmap.org/{z}/{x}/{y}.png" /> */}
       <GeoJSON
         style={mapStyle}
         data={kabupaten}

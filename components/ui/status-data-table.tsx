@@ -16,9 +16,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-import { Button } from "./button";
-import { useState } from "react";
-import { isNotEmptyObject } from "@/lib/utils";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -29,39 +26,13 @@ export function StatusDataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
-  const [rowSelection, setRowSelection] = useState({});
-
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
-    onRowSelectionChange: setRowSelection,
-    state: {
-      rowSelection,
-    },
   });
-
   return (
     <div>
-      {!isNotEmptyObject(rowSelection) ? (
-        <div className="flex justify-between mb-4">
-          <div className="space-x-2">
-            <Button
-              className="bg-foreground hover:bg-foreground/90"
-              onClick={() => table.toggleAllPageRowsSelected(true)}
-            >
-              Pilih Semua
-            </Button>
-            <Button
-              onClick={() => table.toggleAllPageRowsSelected(false)}
-              variant={"outline"}
-            >
-              Batal
-            </Button>
-          </div>
-        </div>
-      ) : null}
-
       <div className="overflow-hidden rounded-xl border border-gray-400">
         <Table>
           <TableHeader className="bg-[#f4f4f4d1]">

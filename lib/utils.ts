@@ -2,6 +2,8 @@ import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import dayjs from "dayjs";
 import { kabupatenColor } from "@/components/constants/kabupaten.constant";
+import { IChartStatusData } from "@/types/Chart";
+import { outcomeColor } from "@/components/constants/outcome.constant";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -29,3 +31,34 @@ export function getKabupatenColorAndId(
   return { id: res.id, fill: res.fill };
 }
 
+export function parseOutcomeData(filteredObj: {
+  drop_out: number;
+  meninggal: number;
+  pindah_layanan: number;
+  relaps_metastase: number;
+  survivor: number;
+}) {
+  return Object.entries(filteredObj).map(([key, value]) => {
+    const color = outcomeColor.filter((item) => item.id == key);
+    return {
+      outcome: key,
+      patients: value,
+      fill: color[0].fill,
+    };
+  });
+}
+
+export function parsedOutcomeDataWithoutColor(filteredObj: {
+  drop_out: number;
+  meninggal: number;
+  pindah_layanan: number;
+  relaps_metastase: number;
+  survivor: number;
+}) {
+  return Object.entries(filteredObj).map(([key, value]) => {
+    return {
+      outcome: key,
+      patients: value,
+    };
+  });
+}

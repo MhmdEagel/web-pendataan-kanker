@@ -1,16 +1,16 @@
 import { cn } from "@/lib/utils";
+import { useRouter } from "next/navigation";
 
 export default function DashboardNavItem({
   isActive,
-  setIsActive,
   children,
-  href,
+  href
 }: {
   isActive: boolean;
   href: string;
-  setIsActive: React.Dispatch<React.SetStateAction<string>>;
   children: React.ReactNode;
 }) {
+  const router = useRouter()
   return (
     <div
       className={cn(
@@ -20,7 +20,8 @@ export default function DashboardNavItem({
             isActive,
         }
       )}
-      onClick={() => setIsActive(href)}
+
+      onClick={() => {router.push(href)}}
     >
       {children}
     </div>

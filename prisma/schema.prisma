@@ -6,6 +6,7 @@ datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
+
 model User {
   id                    String                 @id @default(cuid())
   fullname              String
@@ -16,6 +17,7 @@ model User {
   updatedAt             DateTime               @updatedAt
   isTwoFactorEnabled    Boolean                @default(true)
   twoFactorConfirmation TwoFactorConfirmation?
+  role                  Role
 }
 
 model Patient {
@@ -35,6 +37,7 @@ model Patient {
   outcome        String
   fifth_survivor String
 }
+
 model TwoFactorToken {
   id      String   @id @default(cuid())
   email   String
@@ -43,12 +46,19 @@ model TwoFactorToken {
 
   @@unique([email, token])
 }
+
 model TwoFactorConfirmation {
   id     String @id @default(cuid())
   userId String @unique
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
+
 enum Gender {
   PRIA
   WANITA
+}
+
+enum Role {
+  SUPERADMIN
+  ADMIN
 }

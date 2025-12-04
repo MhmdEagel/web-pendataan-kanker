@@ -4,7 +4,6 @@ import * as React from "react";
 import * as RechartsPrimitive from "recharts";
 
 import { cn } from "@/lib/utils";
-import { IChartStatusData } from "@/types/Chart";
 
 // Format: { THEME_NAME: CSS_SELECTOR }
 const THEMES = { light: "", dark: ".dark" } as const;
@@ -119,7 +118,6 @@ function ChartTooltipContent({
   color,
   nameKey,
   labelKey,
-  outcome,
 }: React.ComponentProps<typeof RechartsPrimitive.Tooltip> &
   React.ComponentProps<"div"> & {
     hideLabel?: boolean;
@@ -127,7 +125,6 @@ function ChartTooltipContent({
     indicator?: "line" | "dot" | "dashed";
     nameKey?: string;
     labelKey?: string;
-    outcome: IChartStatusData[] | null;
   }) {
   const { config } = useChart();
 
@@ -172,12 +169,8 @@ function ChartTooltipContent({
   }
 
   const nestLabel = payload.length === 1 && indicator !== "dot";
-  const kabupaten = (payload[0].payload.kabupaten as string)
-    .split("_")
-    .join(" ");
-  const filtered = outcome?.filter(
-    (status) => status.kabupaten.toLowerCase() == kabupaten
-  )[0];
+
+
   return (
     <div
       className={cn(
@@ -250,37 +243,6 @@ function ChartTooltipContent({
                       </div>
                     </>
                   )}
-                </div>
-                <div className="grid">
-                  {filtered &&
-                    Object.entries(filtered).map((item) => {
-                      let label = item[0]
-                        .split("_")
-                        .map(
-                          (word) =>
-                            word.charAt(0).toUpperCase() + word.substring(1)
-                        )
-                        .join(" ");
-                      const value = item[1];
-
-                      if (label === "Kabupaten") {
-                        return null;
-                      }
-                      if (label === "Relaps Metastase") {
-                        label = "Relaps/Metastase";
-                      }
-                      return (
-                        <div
-                          key={label}
-                          className="flex flex-1 justify-between"
-                        >
-                          <div className="text-muted-foreground">{label}</div>
-                          <div className="text-foreground font-mono font-medium tabular-nums">
-                            {value}
-                          </div>
-                        </div>
-                      );
-                    })}
                 </div>
               </div>
             );

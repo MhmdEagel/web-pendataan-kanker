@@ -7,6 +7,10 @@ export const DASHBOARD_TITLE = [
     path: "/dashboard/data-pasien",
     title: "Data Pasien",
   },
+  {
+    path: "/dashboard/manajemen-user",
+    title: "Manajemen User",
+  },
   { 
     path: "/dashboard/data-pasien/tambah-data",
     title: "Tambah Data",

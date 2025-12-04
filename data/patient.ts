@@ -69,43 +69,48 @@ export const getAllPatientCount = async () => {
 
 export const getAllPatientCountByStatus = async () => {
   try {
-    const outcomeCategoryMap: Record<string, string> = {
-      "drop out": "dalam_pengobatan",
-      "relaps/metastase": "dalam_pengobatan",
-      "pindah layanan": "dalam_pengobatan",
-      survivor: "sembuh",
-      meninggal: "meninggal",
-    };
-
     const grouped = await db.patient.groupBy({
       by: ["asal_daerah", "outcome"],
       _count: { id: true },
     });
-
-    const result = grouped.reduce((acc: any[], row) => {
-      const outcomeKey = row.outcome.toLowerCase();
-      const categoryKey = outcomeCategoryMap[outcomeKey];
-      const kab = row.asal_daerah;
-
-      let found = acc.find((x) => x.kabupaten === kab);
-
-      if (!found) {
-        found = {
-          kabupaten: kab,
-          dalam_pengobatan: 0,
-          sembuh: 0,
-          meninggal: 0,
-        };
-
-        acc.push(found);
+    const result = grouped.reduce((acc: any, row: any) => {
+      const daerah: string = row.asal_daerah;
+      const outcome: string = row.outcome;
+      const parsedOutome = outcome.toLowerCase().split(/[ /]+/).join("_");
+      if (!acc[daerah]) {
+        acc[daerah] = { kabupaten: daerah };
       }
-
-      found[categoryKey] += row._count.id;
+      // kalo belum ada key outcome → set 0 dulu
+      if (!acc[daerah][parsedOutome]) {
+        acc[daerah][parsedOutome] = 0;
+      }
+      acc[daerah][parsedOutome] += row._count.id;
 
       return acc;
-    }, []);
+    }, {});
 
-    return result;
+    return Object.values(result);
+  } catch (err) {
+    console.error(err);
+    return null;
+  }
+};
+
+export const getAllPatientCountOutcomeByKabupaten = async (
+  kabupaten: string
+) => {
+  try {
+    const r = await db.patient.groupBy({
+      by: ["outcome"],
+      _count: { id: true },
+      where: {
+        asal_daerah: kabupaten,
+      },
+    });
+    return r.map((r) => ({
+      outcome: r.outcome.toLowerCase().split(/[ /]+/).join("_"),
+      patients: r._count.id,
+    }));
   } catch (err) {
     console.error(err);
     return null;

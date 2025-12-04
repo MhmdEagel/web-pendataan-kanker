@@ -6,7 +6,7 @@ const prisma = new PrismaClient();
 const kabupaten = [
   { value: "Bengkalis", label: "Bengkalis" },
   { value: "Indragiri Hilir", label: "Indragiri Hilir" },
-  { value: "Indragiri Hulu", label: "Indagiri Hulu" },
+  { value: "Indragiri Hulu", label: "Indragiri Hulu" },
   { value: "Kampar", label: "Kampar" },
   { value: "Kepulauan Meranti", label: "Kepulauan Meranti" },
   { value: "Kuantan Singingi", label: "Kuantan Singingi" },
