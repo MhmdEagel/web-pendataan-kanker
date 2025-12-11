@@ -9,17 +9,14 @@ export default function Dashboard({
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
   const isDetail = searchParams.isDetail;
-  console.log(isDetail);
   return (
     <>
       <DashboardNav />
       {isDetail ? (
-        <DataCancerLayer /> 
+        <DataCancerLayer />
       ) : (
         <>
-          <div className="flex flex-col sm:flex-row items-center mx-auto select-none mb-12">
             <Chart />
-          </div>
           <div className="mb-32">
             <PatientMap />
           </div>

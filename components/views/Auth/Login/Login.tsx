@@ -38,7 +38,7 @@ export default function Login() {
           <CardContent>
             <Form {...form}>
               <form
-                className="flex flex-col gap-6 "
+                className="flex flex-col gap-2"
                 onSubmit={form.handleSubmit(handleFormLogin)}
               >
                 <div className="flex gap-4 justify-center items-center">
@@ -56,7 +56,7 @@ export default function Login() {
                   />
                 </div>
                 <div className="text-xl font-bold text-center">
-                  Pendataan Pasien Kanker
+                 Login
                 </div>
                 {showTwoFactor ? (
                   <>
@@ -160,7 +160,7 @@ export default function Login() {
                   </>
                 ) : null}
                 <Button
-                  className="bg-primary hover:bg-primary/90 w-full"
+                  className="bg-primary hover:bg-primary/90 w-full mt-4"
                   type="submit"
                   disabled={isPending}
                 >

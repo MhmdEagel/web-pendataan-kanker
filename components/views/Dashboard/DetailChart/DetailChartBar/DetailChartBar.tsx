@@ -2,22 +2,15 @@
 
 import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
 
-import {
-  Card,
-  CardContent,
-  CardHeader,
-
-} from "@/components/ui/card";
-import {
-  ChartConfig,
-  ChartContainer,
-} from "@/components/ui/detail-chart";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { ChartConfig, ChartContainer } from "@/components/ui/detail-chart";
 import { IChartStatusData } from "@/types/Chart";
 import { useSearchParams } from "next/navigation";
-import { parseOutcomeData } from "@/lib/utils";
-
-export const description = "A bar chart with an active bar";
-
+import {
+  formatLabelToValueOutcome,
+  getOutcomePercentage,
+  parseOutcomeData,
+} from "@/lib/utils";
 const chartConfig = {
   patients: {
     label: "Patients",
@@ -56,24 +49,51 @@ export function DetailChartBar({
   );
   const { kabupaten, ...rest } = filteredData![0];
   const parsedData = parseOutcomeData(rest);
+  let totalPatients = 0;
+  parsedData.forEach((item) => {
+    totalPatients += item.patients;
+  });
+
   return (
     <Card>
       <CardHeader>
         <div className="text-lg font-bold">{kabupatenParams} - Outcome</div>
       </CardHeader>
       <CardContent>
-        <ChartContainer className="h-[300px] mx-auto" config={chartConfig}>
+        <ChartContainer className="md:h-[300px] mx-auto" config={chartConfig}>
           <BarChart accessibilityLayer data={parsedData}>
             <CartesianGrid vertical={false} />
             <XAxis
-              
               dataKey="outcome"
-              tickLine={false}
-              tickMargin={10}
+              tickLine={false} 
+              tickMargin={14}
               axisLine={false}
-              tickFormatter={(value) =>
-                chartConfig[value as keyof typeof chartConfig]?.label
-              }
+              interval={0}
+              minTickGap={30}
+              tick={(props) => {
+                const { x, y, payload } = props;
+                const cfg = chartConfig[payload.value];
+                const outcomeObj = parsedData.filter(
+                  (item) =>
+                    item.outcome === formatLabelToValueOutcome(cfg.label)
+                )[0];
+                const percentage = getOutcomePercentage(
+                  outcomeObj.patients,
+                  totalPatients
+                );
+                return (
+                  <text x={x} y={y} textAnchor="middle" fill="black">
+                    {/* Baris pertama (persen) */}
+                    <tspan x={x} dy="0" fontSize={window.innerWidth < 400 ? 10 : 14} fontWeight={700}>
+                      {percentage}%
+                    </tspan>
+                    {/* Baris kedua (judul outcome) */}
+                    <tspan x={x} dy="15" fontSize={window.innerWidth < 400 ? 6 : 12}>
+                      {cfg.label}
+                    </tspan>
+                  </text>
+                );
+              }}
             />
             <Bar dataKey="patients" strokeWidth={1} radius={8} />
           </BarChart>

@@ -4,7 +4,6 @@ import {
   ColumnDef,
   flexRender,
   getCoreRowModel,
-  Table as TableType,
   useReactTable,
 } from "@tanstack/react-table";
 
@@ -16,28 +15,14 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useMemo } from "react";
+
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
 }
 
-const useGetTotalByColumnId = (table: TableType<any>, columnId: string) => {
-  const result = useMemo(() => {
-    const Total = table
-      .getCoreRowModel()
-      .flatRows.map((row) => row.getValue(columnId));
-    return Array.from(Total);
-  }, [table, columnId]);
-  let total = 0;
-  result.forEach((item) => {
-    total += item as number;
-  });
-  return total;
-};
-
-export function StatusDataTable<TData, TValue>({
+export function DetailDataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
@@ -46,14 +31,6 @@ export function StatusDataTable<TData, TValue>({
     columns,
     getCoreRowModel: getCoreRowModel(),
   });
-
-  const meninggalTotal = useGetTotalByColumnId(table, "meninggal");
-  const dropOutTotal = useGetTotalByColumnId(table, "drop_out");
-  const pindahLayananTotal = useGetTotalByColumnId(table, "pindah_layanan");
-  const relapsMetastaseTotal = useGetTotalByColumnId(table, "relaps_metastase");
-  const survivor = useGetTotalByColumnId(table, "survivor");
-  const patientTotal = meninggalTotal + dropOutTotal + pindahLayananTotal + relapsMetastaseTotal + survivor
-
   return (
     <div>
       <div className="overflow-hidden rounded-xl border border-gray-400">
@@ -112,43 +89,6 @@ export function StatusDataTable<TData, TValue>({
                 </TableCell>
               </TableRow>
             )}
-            <TableRow className="border-b border-gray-400">
-              <TableCell
-                colSpan={2}
-                className="text-center border-r border-gray-400"
-              >
-                Total Pasien Per Outcome
-              </TableCell>
-              <TableCell className="text-center border-r border-gray-400">
-                {dropOutTotal}
-              </TableCell>
-              <TableCell className="text-center border-r border-gray-400">
-                {meninggalTotal}
-              </TableCell>
-              <TableCell className="text-center border-r border-gray-400">
-                {pindahLayananTotal}
-              </TableCell>
-              <TableCell className="text-center border-r border-gray-400">
-                {relapsMetastaseTotal}
-              </TableCell>
-              <TableCell className="text-center border-gray-400">
-                {survivor}
-              </TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell
-                className="text-center border-r border-gray-400"
-                colSpan={2}
-              >
-                Total Pasien Provinsi Riau
-              </TableCell>
-              <TableCell
-                className="text-center"
-                colSpan={5}
-              >
-                {patientTotal}
-              </TableCell>
-            </TableRow>
           </TableBody>
         </Table>
       </div>

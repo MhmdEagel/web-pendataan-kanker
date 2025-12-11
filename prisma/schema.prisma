@@ -17,7 +17,6 @@ model User {
   updatedAt             DateTime               @updatedAt
   isTwoFactorEnabled    Boolean                @default(true)
   twoFactorConfirmation TwoFactorConfirmation?
-  role                  Role
 }
 
 model Patient {
@@ -58,7 +57,3 @@ enum Gender {
   WANITA
 }
 
-enum Role {
-  SUPERADMIN
-  ADMIN
-}

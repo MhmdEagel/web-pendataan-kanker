@@ -6,25 +6,23 @@ import Legend from "./Legend";
 import loadRiauTask from "@/tasks/loadRiauTask";
 import dynamic from "next/dynamic";
 import legendItems from "./entities/LegendItems";
+import { IChartStatusData } from "@/types/Chart";
 
 const CancerMap = dynamic(() => import("./CancerMap"), {
   ssr: false
 });
 
-interface IPatientData {
-  kabupaten: string;
-  patients: number;
-}
+
 
 export default function Cancer({
   patientData,
 }: {
-  patientData: IPatientData[];
+  patientData: IChartStatusData[];
 }) {
-  const [kabupaten, setKabupaten] = useState(["Pekanbaru"]);
+  const [kabupaten, setKabupaten] = useState([]);
   const legendItemsInReverse = [...legendItems].reverse();
 
-  const load = async (patientData: IPatientData[]) => {
+  const load = async (patientData: IChartStatusData[]) => {
     const loadRiauMapTask = new loadRiauTask();
     await loadRiauMapTask.load(setKabupaten, patientData);
   };

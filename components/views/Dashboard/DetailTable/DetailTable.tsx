@@ -1,8 +1,8 @@
 "use client"
-import { StatusDataTable } from "@/components/ui/status-data-table";
 import { columns } from "./column";
 import { IChartStatusData } from "@/types/Chart";
 import { useSearchParams } from "next/navigation";
+import { DetailDataTable } from "@/components/ui/detail-table";
 
 export default function DetailTable({ data }: { data: IChartStatusData[] }) {
   const searchParams = useSearchParams();
@@ -14,8 +14,8 @@ export default function DetailTable({ data }: { data: IChartStatusData[] }) {
     return null;
 }
   return (
-    <div className="w-full mt-4 px-8">
-      <StatusDataTable columns={columns} data={filteredData} />
+    <div className="w-full mt-4 px-1 sm:px-8">
+      <DetailDataTable columns={columns} data={filteredData} />
     </div>
   );
 }

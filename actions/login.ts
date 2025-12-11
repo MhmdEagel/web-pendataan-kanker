@@ -61,7 +61,6 @@ const loginUser = async (data: ILogin) => {
       return { twoFactor: true };
     }
   }
-
   try {
     await signIn("credentials", {
       email,

@@ -66,33 +66,33 @@ async function seed() {
 
   await prisma.patient.deleteMany();
 
-  for (const daerah of kabupaten) {
-    const jumlah = faker.number.int({ min: 100, max: 200 });
+  // for (const daerah of kabupaten) {
+  //   const jumlah = faker.number.int({ min: 100, max: 200 });
 
-    console.log(`➡ Mengisi daerah ${daerah.value} dengan ${jumlah} pasien`);
+  //   console.log(`➡ Mengisi daerah ${daerah.value} dengan ${jumlah} pasien`);
 
-    const patients = Array.from({ length: jumlah }).map(() => ({
-      nama: faker.person.fullName(),
-      nik: randomNIK(),
-      jenis_kelamin: faker.helpers.arrayElement(["PRIA", "WANITA"]),
-      tanggal_lahir: randomTanggalLahir(),
-      asal_daerah: daerah.value,
-      pekerjaan_ayah: faker.helpers.arrayElement(pekerjaanAyah),
-      pekerjaan_ibu: faker.helpers.arrayElement(pekerjaanIbu),
-      dokter: faker.helpers.arrayElement(dokterSet),
-      klinis: faker.helpers.arrayElement(klinisSet),
-      diagnosa: faker.helpers.arrayElement(diagnosaSet),
-      terapi: faker.helpers.arrayElement(terapiSet),
-      operasi: faker.helpers.arrayElement(operasiSet),
-      outcome: faker.helpers.arrayElement(outcomeSet),
-      fifth_survivor: faker.helpers.arrayElement(fifthSet),
-    }));
+  //   const patients = Array.from({ length: jumlah }).map(() => ({
+  //     nama: faker.person.fullName(),
+  //     nik: randomNIK(),
+  //     jenis_kelamin: faker.helpers.arrayElement(["PRIA", "WANITA"]),
+  //     tanggal_lahir: randomTanggalLahir(),
+  //     asal_daerah: daerah.value,
+  //     pekerjaan_ayah: faker.helpers.arrayElement(pekerjaanAyah),
+  //     pekerjaan_ibu: faker.helpers.arrayElement(pekerjaanIbu),
+  //     dokter: faker.helpers.arrayElement(dokterSet),
+  //     klinis: faker.helpers.arrayElement(klinisSet),
+  //     diagnosa: faker.helpers.arrayElement(diagnosaSet),
+  //     terapi: faker.helpers.arrayElement(terapiSet),
+  //     operasi: faker.helpers.arrayElement(operasiSet),
+  //     outcome: faker.helpers.arrayElement(outcomeSet),
+  //     fifth_survivor: faker.helpers.arrayElement(fifthSet),
+  //   }));
 
-    await prisma.patient.createMany({
-      data: patients,
-      skipDuplicates: true,
-    });
-  }
+  //   await prisma.patient.createMany({
+  //     data: patients,
+  //     skipDuplicates: true,
+  //   });
+  // }
 
   console.log("✅ Selesai seeding pasien!");
 }

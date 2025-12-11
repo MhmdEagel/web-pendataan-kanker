@@ -11,7 +11,7 @@ export default function Chart() {
 
 function LoadingChart() {
   return (
-    <div className="flex flex-col gap-7 sm:flex-row items-center min-h-[420px]">
+    <div className="flex flex-col gap-7  items-center min-h-[420px]">
       <div className="flex flex-col items-center gap-4 min-w-[550px]">
         <Skeleton className="w-62 h-62 rounded-full bg-slate-200" />
         <div className="flex gap-3">
@@ -29,7 +29,7 @@ function LoadingChart() {
           </div>
         </div>
       </div>
-      <div className="flex items-center sm:items-start flex-col gap-4">
+      <div className="flex items-center  flex-col gap-4">
         <Skeleton className="bg-slate-200 w-34 h-4" />
         <Skeleton className="bg-slate-200 w-28 h-8" />
       </div>

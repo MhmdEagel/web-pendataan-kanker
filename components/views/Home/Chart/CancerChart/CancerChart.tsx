@@ -1,6 +1,6 @@
 "use client";
 
-import { Pie, PieChart, ResponsiveContainer } from "recharts";
+import { LabelList, Pie, PieChart, ResponsiveContainer } from "recharts";
 
 import {
   ChartConfig,
@@ -12,7 +12,6 @@ import {
 } from "@/components/ui/chart";
 import { IChartData, IChartStatusData } from "@/types/Chart";
 export const description = "A pie chart with a legend";
-
 
 const chartConfig = {
   patients: {
@@ -66,16 +65,19 @@ export function CancerChart({
   outcome,
 }: {
   chartData: IChartData[] | null;
-  outcome: IChartStatusData[] | null
+  outcome: IChartStatusData[] | null;
 }) {
   return (
-    <ResponsiveContainer width={550}>
-      <ChartContainer config={chartConfig} className="max-h-[420px]">
+    <ResponsiveContainer>
+      <ChartContainer
+        config={chartConfig}
+        className="[&_.recharts-pie-label-text]:fill-foreground mx-auto aspect-square max-h-[480px] pb-0"
+      >
         <PieChart>
           <Pie data={chartData!} label dataKey="patients" />
           <ChartLegend
             content={<ChartLegendContent nameKey="kabupaten" />}
-            className="-translate-y-2 flex-wrap gap-2  *:justify-center"
+            className="-translate-y-2 flex-wrap gap-2 *:justify-center hidden sm:flex"
           />
           <ChartTooltip
             content={

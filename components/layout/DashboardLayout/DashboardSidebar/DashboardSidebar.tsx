@@ -42,7 +42,7 @@ export default function DashboardSidebar(props: PropTypes) {
                     <User size={15} />
                   </AvatarFallback>
                 </Avatar>
-                <span className="text-lg font-semibold">Admin / User</span>
+                <span className="text-lg font-semibold">Admin</span>
               </div>
             </SidebarMenuButton>
           </SidebarMenuItem>

@@ -4,10 +4,16 @@ interface ILogin {
     code?: string
 }
 
+interface IRegister {
+    email: string;
+    fullname: string;
+    password: string;
+}
+
 interface INewPassword {
     oldPassword: string;
     newPassword: string;
 }
 
 
-export type {ILogin, INewPassword}
+export type {ILogin, INewPassword, IRegister}

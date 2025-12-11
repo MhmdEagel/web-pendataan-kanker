@@ -18,8 +18,8 @@ export default async function DataCancerChart() {
         chartData={data}
         outcome={outome as IChartStatusData[] | null}
       />
-      <div className="text-center sm:text-left">
-        <div className="text-xl mb-2">Total Penderita Kanker</div>
+      <div className="text-center mb-8">
+        <div className="text-lg">Total Penderita Kanker</div>
         <div className="text-3xl font-bold">{total}</div>
       </div>
     </>

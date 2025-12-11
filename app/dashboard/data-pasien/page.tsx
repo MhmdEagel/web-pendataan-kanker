@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import DataMustahikTable from "@/components/views/PatientData/Table/PatientTable";
+import DataPatientTable from "@/components/views/PatientData/Table/PatientTable";
 import { Plus } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
@@ -18,7 +18,7 @@ export default function PatientDataPage() {
         <Suspense
           fallback={<Skeleton className="w-full h-[420px] rounded-xl mt-4 bg-slate-200" />}
         >
-          <DataMustahikTable />
+          <DataPatientTable />
         </Suspense>
       </div>
     </div>

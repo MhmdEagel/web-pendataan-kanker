@@ -2,7 +2,6 @@ import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import dayjs from "dayjs";
 import { kabupatenColor } from "@/components/constants/kabupaten.constant";
-import { IChartStatusData } from "@/types/Chart";
 import { outcomeColor } from "@/components/constants/outcome.constant";
 
 export function cn(...inputs: ClassValue[]) {
@@ -62,3 +61,14 @@ export function parsedOutcomeDataWithoutColor(filteredObj: {
     };
   });
 }
+
+export function getOutcomePercentage(patient: number, total: number) {
+  return Math.ceil((patient / total) * 100);
+}
+
+export function formatLabelToValueOutcome(label: string) {
+  return label.toLowerCase().split(/[ /]+/).join("_");
+}
+
+
+

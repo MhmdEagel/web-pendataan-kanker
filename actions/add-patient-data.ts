@@ -3,6 +3,7 @@ import { db } from "@/lib/db";
 import { NewPatient } from "@/types/Data";
 import { revalidatePath } from "next/cache";
 
+
 export async function addPatientData(data: NewPatient) {
   try {
     await db.patient.create({

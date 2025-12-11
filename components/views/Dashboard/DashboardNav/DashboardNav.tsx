@@ -20,25 +20,24 @@ export default function DashboardNav() {
   const kabupatenParams = searchParams.get("kabupaten");
   const isDetailParams = searchParams.get("isDetail");
   const path = `${pathname}${isDetailParams ? `?isDetail=${isDetailParams}` : ""}`;
-  console.log(path)
   return (
     <nav className="flex flex-col gap-2 mb-4">
-      <div className="inline-flex w-full justify-start items-center p-0">
+      <div className="sm:inline-flex w-full justify-start items-center p-0">
         <div className="w-fit border-b-[1.5px]">
           <DashboardNavItem isActive={"/dashboard" == path} href={"/dashboard"}>
             <ChartArea size={16} />
-            <span>Ringkasan</span>
+            <span className="text-sm sm:text-base">Ringkasan</span>
           </DashboardNavItem>
           <DashboardNavItem
             isActive={"/dashboard?isDetail=true" == path}
             href={"/dashboard?isDetail=true&kabupaten=Pekanbaru"}
           >
             <TableOfContents size={16} />
-            <span>Detail</span>
+            <span className="text-sm sm:text-base">Detail</span>
           </DashboardNavItem>
         </div>
         <DropdownMenu>
-          <DropdownMenuTrigger asChild className="ml-auto">
+          <DropdownMenuTrigger asChild className="sm:ml-auto mt-4 sm:mt-0">
             <Button variant={"outline"} className="flex items-center">
               <div>{kabupatenParams ?? "Kabupaten"}</div>
               <ChevronDown />

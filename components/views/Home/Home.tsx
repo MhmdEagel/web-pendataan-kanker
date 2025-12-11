@@ -22,17 +22,15 @@ export default function Home() {
               alt="Logo RSUD Arifin Ahmad"
             />
           </div>
-          <div className="text-center ">
-            <h1 className="text-2xl font-bold">
+          <div className="text-center px-4 sm:px-0">
+            <h1 className="sm:text-2xl font-bold">
               Tabulasi Data Pasien Kanker Provinsi Riau
             </h1>
-            <div className="text-lg">RSUD Arifin Achmad Provinsi Riau</div>
+            <div className="sm:text-lg">RSUD Arifin Achmad Provinsi Riau</div>
           </div>
         </div>
       </div>
-      <div className="pt-16 pb-28 flex flex-col sm:flex-row justify-center items-center select-none">
-        <Chart />
-      </div>
+      <Chart />
       <div className="mb-16">
         <StatusTableLayer />
       </div>
@@ -40,7 +38,7 @@ export default function Home() {
       <div>
         <PatientMap />
       </div>
-      <footer className="bg-slate-950 text-gray-300 text-sm flex items-center px-4 min-h-16 mt-16 justify-center">
+      <footer className="bg-slate-950 text-gray-300 text-sm flex items-center px-4 min-h-16 mt-16 justify-center text-center">
         © 2025 RSUD Arifin Achmad Provinsi Riau. All rights reserved.
       </footer>
     </>
