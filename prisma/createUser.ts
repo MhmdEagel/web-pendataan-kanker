@@ -5,6 +5,7 @@ async function main() {
   // Hash Password
   const hashedPassword = await bcrypt.hash("Pekanbaru123!", 10); // ganti password
   console.log("🙍‍♂️ Mebuat user baru...");
+  await prisma.user.deleteMany({})
   await prisma.user.create({
     data: {
       email: "wagianto190617@gmail.com", // ganti email

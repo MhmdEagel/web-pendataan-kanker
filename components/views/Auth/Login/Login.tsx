@@ -46,13 +46,13 @@ export default function Login() {
                     src={"/assets/logo/logo_riau.svg"}
                     width={60}
                     height={60}
-                    alt="Logo IZI"
+                    alt="Logo RSUD"
                   />
                   <Image
-                    src={"/assets/logo/logo_rsud.jpg"}
+                    src={"/assets/logo/logo_rsud.png"}
                     width={75}
                     height={75}
-                    alt="Logo IZI"
+                    alt="Logo RSUD"
                   />
                 </div>
                 <div className="text-xl font-bold text-center">
