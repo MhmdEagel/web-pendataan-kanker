@@ -15,7 +15,7 @@ export const newPatientSchema = z.object({
     .min(8, { error: "NIK minimal 8 karakter" })
     .max(16, { error: "NIK maksimal 16 karakter" })
     .regex(/^\d+$/, { error: "NIK hanya boleh berisi angka" }),
-  jenis_kelamin: z.enum(["PRIA", "WANITA"], {
+  jenis_kelamin: z.enum(["LAKI_LAKI", "PEREMPUAN"], {
     error: "Pilihan invalid. Silahkan pilih salah satu",
   }),
   tanggal_lahir: z.date({

@@ -7,6 +7,7 @@ export const tambahDataExcel = async (data: NewPatient[]) => {
   try {
     await db.patient.createMany({
       data,
+      
     });
     return { success: "Berhasil menambahkan data", error: null };
   } catch (e) {

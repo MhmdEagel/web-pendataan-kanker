@@ -337,14 +337,14 @@ export default function StorePatientData() {
                     name="terapi"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Operasi</FormLabel>
+                        <FormLabel>Terapi</FormLabel>
                         <FormControl>
                           <Select
                             onValueChange={field.onChange}
                             defaultValue={field.value || ""}
                           >
                             <SelectTrigger className="w-full">
-                              <SelectValue placeholder="Pilih Jenis Operasi" />
+                              <SelectValue placeholder="Pilih Jenis Terapi" />
                             </SelectTrigger>
                             <SelectContent>
                               <SelectItem value="kemotrapi">Operasi</SelectItem>

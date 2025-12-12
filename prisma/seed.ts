@@ -76,7 +76,6 @@ async function seed() {
       klinis: faker.helpers.arrayElement(klinisSet),
       diagnosa: faker.helpers.arrayElement(diagnosaSet),
       terapi: faker.helpers.arrayElement(terapiSet),
-      operasi: faker.helpers.arrayElement(operasiSet),
       outcome: faker.helpers.arrayElement(outcomeSet),
       fifth_survivor: faker.helpers.arrayElement(fifthSet),
       rumah_sakit: `RS ${faker.lorem.word()}`

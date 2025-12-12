@@ -33,7 +33,6 @@ model Patient {
   klinis         String
   diagnosa       String
   terapi         String
-  operasi        String
   outcome        String
   fifth_survivor String
 }
