@@ -1,4 +1,4 @@
-import { PrismaClient, Role } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
 const prisma = new PrismaClient();
 async function main() {
@@ -10,7 +10,6 @@ async function main() {
       email: "wagianto190617@gmail.com", // ganti email
       fullname: "Wagianto", // ganti nama
       password: hashedPassword,
-      role: Role.SUPERADMIN
     },
   });
   console.log("✅ Membuat user baru selesai.");

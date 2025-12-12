@@ -3,8 +3,8 @@ import NextAuth from "next-auth";
 import { NextResponse } from "next/server";
 import { apiAuthPrefix, authRoutes, publicRoutes } from "./routes";
 
-const { auth } = NextAuth(authConfig);
 
+const { auth } = NextAuth(authConfig);
 export default auth(async function proxy(req) {
   const { nextUrl } = req;
   const isLoggedIn = !!req.auth;
