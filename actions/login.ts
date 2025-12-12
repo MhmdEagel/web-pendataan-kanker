@@ -8,7 +8,7 @@ import { db } from "@/lib/db";
 import { sendTwoFactorTokenEmail } from "@/lib/mail";
 import { generateTwoFactorToken } from "@/lib/tokens";
 import { ILogin } from "@/types/Auth";
-import { AuthError } from "next-auth";
+import AuthError from "next-auth";
 
 const loginUser = async (data: ILogin) => {
   const { email, password, code } = data;
