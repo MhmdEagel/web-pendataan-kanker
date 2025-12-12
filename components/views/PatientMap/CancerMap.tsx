@@ -45,7 +45,7 @@ export default function CancerMap({ kabupaten }) {
     <MapContainer
       center={[1, 101.45]}
       zoom={7}
-      style={{ height: "100%", width: "100%" }}
+      style={{ height: "100%", width: "100%", zIndex: 0 }}
       scrollWheelZoom={false}
     >
       {/* <TileLayer url="https://{s}.tile.opxenstreetmap.org/{z}/{x}/{y}.png" /> */}

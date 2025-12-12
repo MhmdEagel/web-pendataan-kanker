@@ -174,8 +174,8 @@ export default function StorePatientData() {
                               <SelectValue placeholder="Pilih Jenis Kelamin" />
                             </SelectTrigger>
                             <SelectContent>
-                              <SelectItem value="PRIA">Pria</SelectItem>
-                              <SelectItem value="WANITA">Wanita</SelectItem>
+                              <SelectItem value="LAKI_LAKI">Laki-laki</SelectItem>
+                              <SelectItem value="PEREMPUAN">Perempuan</SelectItem>
                             </SelectContent>
                           </Select>
                         </FormControl>
@@ -268,6 +268,23 @@ export default function StorePatientData() {
                   />
                   <FormField
                     control={form.control}
+                    name="rumah_sakit"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Rumah Sakit</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Rumah Sakit"
+                            {...field}
+                            value={field.value || ""}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
                     name="klinis"
                     render={({ field }) => (
                       <FormItem>
@@ -320,23 +337,6 @@ export default function StorePatientData() {
                     name="terapi"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Terapi</FormLabel>
-                        <FormControl>
-                          <Textarea
-                            placeholder="Terapi"
-                            {...field}
-                            value={field.value || ""}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="operasi"
-                    render={({ field }) => (
-                      <FormItem>
                         <FormLabel>Operasi</FormLabel>
                         <FormControl>
                           <Select
@@ -347,7 +347,8 @@ export default function StorePatientData() {
                               <SelectValue placeholder="Pilih Jenis Operasi" />
                             </SelectTrigger>
                             <SelectContent>
-                              <SelectItem value="kemo">Kemo</SelectItem>
+                              <SelectItem value="kemotrapi">Operasi</SelectItem>
+                              <SelectItem value="kemotrapi">Kemotrapi</SelectItem>
                               <SelectItem value="radiasi">Radiasi</SelectItem>
                               <SelectItem value="transplantasi">
                                 Transplantasi

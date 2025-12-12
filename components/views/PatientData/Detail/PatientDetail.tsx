@@ -23,11 +23,7 @@ export default function DetailData({ patientId }: { patientId: string }) {
     </Card>
   );
 }
-async function DetailDataCard({
-  patientId,
-}: {
-  patientId: string;
-}) {
+async function DetailDataCard({ patientId }: { patientId: string }) {
   const data = await getPatientDetailData(patientId);
   if (!data) {
     return (
@@ -48,6 +44,17 @@ async function DetailDataCard({
       {Object.entries(data).map(([key, value]) => {
         const label = key.split("_").join(" ");
         if (key === "id") return null;
+
+        if (key === "jenis_kelamin") {
+          const gender = (value as string).toLowerCase();
+          return <DetailDataItem key={key} label={label} value={gender} />;
+        }
+
+        if (key === "fifth_survivor") {
+          const survivor = (value as string).toLowerCase();
+          return <DetailDataItem key={key} label={label} value={survivor} />;
+        }
+
         if (value instanceof Date) {
           const dateString = generateDateString(value);
           return <DetailDataItem key={key} label={label} value={dateString} />;
@@ -65,8 +72,14 @@ function DetailDataItem(props: PropTypes) {
   const { label, value } = props;
   return (
     <div className="grid grid-cols-1 gap-2">
-      <Label className="capitalize">{label}</Label>
-      <div className="flex w-full border px-3 py-1 rounded-lg capitalize">{value}</div>
+      {label === "nik" ? (
+        <Label className="uppercase">{label}</Label>
+      ) : (
+        <Label className="capitalize">{label}</Label>
+      )}
+      <div className="flex w-full border px-3 py-1 rounded-lg capitalize">
+        {value}
+      </div>
     </div>
   );
 }

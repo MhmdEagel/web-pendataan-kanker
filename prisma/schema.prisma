@@ -29,6 +29,7 @@ model Patient {
   pekerjaan_ayah String
   pekerjaan_ibu  String
   dokter         String
+  rumah_sakit    String
   klinis         String
   diagnosa       String
   terapi         String
@@ -53,7 +54,7 @@ model TwoFactorConfirmation {
 }
 
 enum Gender {
-  PRIA
-  WANITA
+  LAKI_LAKI
+  PEREMPUAN
 }
 

@@ -46,6 +46,11 @@ multiple select
   {
     accessorKey: "jenis_kelamin",
     header: "Jenis Kelamin",
+    cell: ({ row }) => {
+    const value: string = row.getValue("jenis_kelamin")
+    const label = value.split("_").join(" ")
+    return <span className="capitalize">{label.toLowerCase()}</span>
+  }
   },
   {
     accessorKey: "tanggal_lahir",
@@ -65,12 +70,16 @@ multiple select
     header: "Dokter",
   },
   {
+    accessorKey: "rumah_sakit",
+    header: "Rumah Sakit",
+  },
+  {
     accessorKey: "klinis",
     header: "Klinis",
   },
   {
-    accessorKey: "operasi",
-    header: "Operasi",
+    accessorKey: "terapi",
+    header: "Terapi",
   },
   {
     accessorKey: "outcome",

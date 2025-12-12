@@ -38,6 +38,10 @@ export const newPatientSchema = z.object({
     error: (is) =>
       is.input === undefined ? "Nama dokter tidak boleh kosong" : "Input invalid",
   }),
+  rumah_sakit: z.string({
+    error: (is) =>
+      is.input === undefined ? "Rumah sakit tidak boleh kosong" : "Input invalid",
+  }),
   klinis: z.string({
     error: (is) =>
       is.input === undefined ? "Klinis tidak boleh kosong" : "Input invalid",
@@ -49,10 +53,6 @@ export const newPatientSchema = z.object({
   terapi: z.string({
     error: (is) =>
       is.input === undefined ? "Terapi tidak boleh kosong" : "Input invalid",
-  }),
-  operasi: z.string({
-    error: (is) =>
-      is.input === undefined ? "Operasi tidak boleh kosong" : "Input invalid",
   }),
   outcome: z.string({
     error: (is) =>

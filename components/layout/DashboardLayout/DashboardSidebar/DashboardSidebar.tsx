@@ -31,7 +31,7 @@ export default function DashboardSidebar(props: PropTypes) {
   const url = `/${pathname.split("/").filter(Boolean).slice(0, 2).join("/")}`;
 
   return (
-    <Sidebar>
+    <Sidebar className="z-30">
       <SidebarHeader className="mb-3">
         <SidebarMenu>
           <SidebarMenuItem>

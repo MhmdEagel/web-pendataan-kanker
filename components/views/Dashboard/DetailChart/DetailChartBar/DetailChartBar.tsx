@@ -88,7 +88,7 @@ export function DetailChartBar({
                       {percentage}%
                     </tspan>
                     {/* Baris kedua (judul outcome) */}
-                    <tspan x={x} dy="15" fontSize={window.innerWidth < 400 ? 6 : 12}>
+                    <tspan x={x} dy="15" fontSize={window.innerWidth < 556 ? 6 : window.innerHeight < 600 ? 7 : 12}>
                       {cfg.label}
                     </tspan>
                   </text>

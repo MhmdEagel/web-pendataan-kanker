@@ -13,12 +13,10 @@ interface Patient {
   klinis: string;
   diagnosa: string;
   terapi: string;
-  operasi: string;
   outcome: string;
-  fifth_survivor: string;  
+  fifth_survivor: string;
+  rumah_sakit: string;
 }
-
-
 type NewPatient = Omit<Patient, "id">
 
 interface IKabupaten {

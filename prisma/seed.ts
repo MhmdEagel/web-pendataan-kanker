@@ -32,10 +32,9 @@ const pekerjaanIbu = [
   "Karyawan Swasta",
   "Wiraswasta",
 ];
-
 const klinisSet = ["Laboratorium", "Radiologi", "Klinis Umum"];
 const diagnosaSet = ["Kanker", "Tumor", "Infeksi", "Gastritis", "Asma"];
-const terapiSet = ["Kemoterapi", "Perawatan Intensif", "Obat Jalan"];
+const terapiSet = ["Kemoterapi", "Operasi", "Radiasi", "Transplantasi"];
 const operasiSet = ["Transplantasi", "Operasi Minor", "Operasi Mayor"];
 const outcomeSet = [
   "Drop Out",
@@ -45,9 +44,7 @@ const outcomeSet = [
   "Survivor",
 ];
 const fifthSet = ["YA", "TIDAK"];
-
 const dokterSet = ["Udin", "Budi", "Siti", "Andi", "Rahmat"];
-
 function randomNIK() {
   // Panjang random 12–16 digit
   const len = faker.number.int({ min: 12, max: 16 });
@@ -63,18 +60,14 @@ function randomTanggalLahir() {
 
 async function seed() {
   console.log("🌱 Memulai seeding patient...");
-
-  await prisma.patient.deleteMany();
-
+  await prisma.patient.deleteMany({});
   for (const daerah of kabupaten) {
     const jumlah = faker.number.int({ min: 100, max: 200 });
-
     console.log(`➡ Mengisi daerah ${daerah.value} dengan ${jumlah} pasien`);
-
     const patients = Array.from({ length: jumlah }).map(() => ({
       nama: faker.person.fullName(),
       nik: randomNIK(),
-      jenis_kelamin: faker.helpers.arrayElement(["PRIA", "WANITA"]),
+      jenis_kelamin: faker.helpers.arrayElement(["LAKI_LAKI", "PEREMPUAN"]),
       tanggal_lahir: randomTanggalLahir(),
       asal_daerah: daerah.value,
       pekerjaan_ayah: faker.helpers.arrayElement(pekerjaanAyah),
@@ -86,6 +79,7 @@ async function seed() {
       operasi: faker.helpers.arrayElement(operasiSet),
       outcome: faker.helpers.arrayElement(outcomeSet),
       fifth_survivor: faker.helpers.arrayElement(fifthSet),
+      rumah_sakit: `RS ${faker.lorem.word()}`
     }));
 
     await prisma.patient.createMany({
