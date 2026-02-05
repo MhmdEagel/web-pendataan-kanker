@@ -1,9 +1,13 @@
 import { DataTable } from "@/components/ui/data-table";
 import { columns } from "./Columns";
-import { getPatientData } from "@/data/patient";
+import { FilterInput, getPatientData } from "@/data/patient";
 
-export default async function DataPatientTable() {
-  const data = await getPatientData();
+export default async function DataPatientTable({
+  filters,
+}: {
+  filters?: FilterInput;
+}) {
+  const data = await getPatientData(filters);
   if (!data) {
     return null;
   }

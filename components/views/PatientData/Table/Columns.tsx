@@ -74,10 +74,6 @@ multiple select
     header: "Rumah Sakit",
   },
   {
-    accessorKey: "klinis",
-    header: "Klinis",
-  },
-  {
     accessorKey: "terapi",
     header: "Terapi",
   },

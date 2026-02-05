@@ -6,6 +6,7 @@ import { getTwoFactorTokenByEmail } from "@/data/two-factor-token";
 import { getUserByEmail } from "@/data/user";
 import { db } from "@/lib/db";
 import { sendTwoFactorTokenEmail } from "@/lib/mail";
+import { isPasswordMatch } from "@/lib/password";
 import { generateTwoFactorToken } from "@/lib/tokens";
 import { ILogin } from "@/types/Auth";
 import { AuthError } from "next-auth";
@@ -15,10 +16,14 @@ const loginUser = async (data: ILogin) => {
   const user = await getUserByEmail(email);
 
   if (!user || !user.email || !user.password) {
-    throw new Error("Email tidak ditemukan");
+    throw new Error("email atau password salah");
   }
 
-  if (user.isTwoFactorEnabled && user.email) {
+  if (!isPasswordMatch(password, user.password)) {
+    throw new Error("email atau password salah");
+  }
+
+  if (user.isTwoFactorEnabled && user.email) {b
     if (code) {
       const twoFactorToken = await getTwoFactorTokenByEmail(user.email);
 

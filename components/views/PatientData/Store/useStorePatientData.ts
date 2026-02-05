@@ -10,6 +10,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as XLSX from "xlsx";
 import customParseFormat from "dayjs/plugin/customParseFormat";
+import z from "zod";
 
 dayjs.extend(customParseFormat);
 
@@ -22,8 +23,22 @@ export function useStorePatientData() {
 
   const form = useForm({
     resolver: zodResolver(newPatientSchema),
+    defaultValues: {
+      klinisValues: [],
+      klinisImages: {
+        LABORATORIUM: [],
+        RADIOLOGI: [],
+        PATOLOGI_ANATOMI: [],
+        PEMERIKSAAN_JANTUNG: [],
+      },
+      penyelidikan_epidemiologi: [],
+      pemeriksaanFisikImages: [],
+      terapi: [],
+    },
   });
-  const handleNewPatientData = async (data: NewPatient) => {
+  const handleNewPatientData = async (
+    data: z.infer<typeof newPatientSchema>,
+  ) => {
     setIsPending(true);
     const res = await addPatientData(data);
     if (res.error) {

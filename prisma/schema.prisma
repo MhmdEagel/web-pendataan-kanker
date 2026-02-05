@@ -20,21 +20,91 @@ model User {
 }
 
 model Patient {
-  id             String   @id @default(cuid())
-  nama           String
-  nik            String   @unique
-  jenis_kelamin  Gender
-  tanggal_lahir  DateTime
-  asal_daerah    String
-  pekerjaan_ayah String
-  pekerjaan_ibu  String
-  dokter         String
-  rumah_sakit    String
-  klinis         String
-  diagnosa       String
-  terapi         String
-  outcome        String
-  fifth_survivor String
+  id                       String                 @id @default(cuid())
+  nama                     String
+  nik                      String                 @unique
+  jenis_kelamin            Gender
+  tanggal_lahir            DateTime
+  asal_daerah              String
+  pekerjaan_ayah           String
+  pekerjaan_ibu            String
+  dokter                   String
+  rumah_sakit              String
+  diagnosa                 String
+  terapi                   String
+  outcome                  String
+  fifth_survivor           String
+  nomor_telepon            String
+  berat                    Int
+  tinggi                   Int
+  klinis                   Klinis[]
+  epidemiologi             Epidemiologi           @relation(fields: [epidemiologiId], references: [id], onDelete: Cascade)
+  pemeriksaanFisikDetail   PemeriksaanFisikDetail @relation(fields: [pemeriksaanFisikDetailId], references: [id], onDelete: Cascade)
+  pemeriksaanFisikDetailId String                 @unique
+  epidemiologiId           String                 @unique
+}
+
+model Klinis {
+  id        String   @id @default(cuid())
+  patientId String
+  tanggal   DateTime @default(now())
+
+  patient Patient        @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  details KlinisDetail[]
+}
+
+model KlinisDetail {
+  id       String      @id @default(cuid())
+  klinisId String
+  value    KlinisValue
+  caption  String?
+
+  klinis Klinis        @relation(fields: [klinisId], references: [id], onDelete: Cascade)
+  images KlinisImage[]
+}
+
+model PemeriksaanFisikDetail {
+  id                String                  @id @default(cuid())
+  description       String?
+  pemeriksaanImages PemeriksaanFisikImage[]
+  patient           Patient?
+}
+
+model PemeriksaanFisikImage {
+  id                       String                  @id @default(cuid())
+  pemeriksaanFisikDetailId String
+  fileName                 String
+  publicId                 String
+  url                      String
+  pemeriksaanFisikDetail   PemeriksaanFisikDetail? @relation(fields: [pemeriksaanFisikDetailId], references: [id], onDelete: Cascade)
+}
+
+model KlinisImage {
+  id       String @id @default(cuid())
+  detailId String
+  fileName String
+  publicId String
+  url      String
+
+  detail KlinisDetail @relation(fields: [detailId], references: [id], onDelete: Cascade)
+}
+
+model Epidemiologi {
+  id               String        @id @default(cuid())
+  value            String
+  tumorDescription String?
+  patient          Patient?
+  tumorImages      TumorImages[]
+}
+
+model TumorImages {
+  id       String @id @default(cuid())
+  fileName String
+  publicId String
+  url      String
+
+  epidemiologi   Epidemiologi? @relation(fields: [epidemiologiId], references: [id], onDelete: Cascade)
+  epidemiologiId String?
 }
 
 model TwoFactorToken {
@@ -57,3 +127,9 @@ enum Gender {
   PEREMPUAN
 }
 
+enum KlinisValue {
+  LABORATORIUM
+  RADIOLOGI
+  PATOLOGI_ANATOMI
+  PEMERIKSAAN_JANTUNG
+}

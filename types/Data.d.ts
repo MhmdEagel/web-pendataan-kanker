@@ -10,9 +10,8 @@ interface Patient {
   pekerjaan_ayah: string;
   pekerjaan_ibu: string;
   dokter: string;
-  klinis: string;
   diagnosa: string;
-  terapi: string;
+  terapi: string[];
   outcome: string;
   fifth_survivor: string;
   rumah_sakit: string;

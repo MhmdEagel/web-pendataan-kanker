@@ -18,7 +18,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import DatePicker from "@/components/ui/date-picker";
-import { Textarea } from "@/components/ui/textarea";
 import ComboBox from "@/components/ui/combo-box";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -32,6 +31,13 @@ import {
 } from "@/components/ui/dropzone";
 import { UploadIcon } from "lucide-react";
 import { Spinner } from "@/components/ui/spinner";
+import { Label } from "@/components/ui/label";
+import { terapi } from "@/components/constants/input.constant";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Textarea } from "@/components/ui/textarea";
+import { FormImageUpload } from "@/components/ui/input-images";
+import { EpidemiologiImageInput } from "@/components/ui/epidemiologi-inputs";
+import { PemeriksaanFisikImageInput } from "@/components/ui/pemeriksaan-fisik-input";
 
 export default function StorePatientData() {
   const router = useRouter();
@@ -43,7 +49,8 @@ export default function StorePatientData() {
     setActiveTab,
     files,
     isPendingUpload,
-    handleDrop
+    isPending,
+    handleDrop,
   } = useStorePatientData();
   return (
     <Card className="p-8">
@@ -124,10 +131,9 @@ export default function StorePatientData() {
                 <CardHeader>
                   <div className="text-lg font-bold">Identitas Pasien</div>
                 </CardHeader>
-                <CardContent className="grid grid-cols-2 gap-4">
+                <CardContent className="grid md:grid-cols-2 gap-4">
                   <FormField
-                    control={form.control}
-                    name="nik"
+                    {...form.register("nik")}
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>NIK</FormLabel>
@@ -143,8 +149,7 @@ export default function StorePatientData() {
                     )}
                   />
                   <FormField
-                    control={form.control}
-                    name="nama"
+                    {...form.register("nama")}
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Nama</FormLabel>
@@ -160,8 +165,7 @@ export default function StorePatientData() {
                     )}
                   />
                   <FormField
-                    control={form.control}
-                    name="jenis_kelamin"
+                    {...form.register("jenis_kelamin")}
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Jenis Kelamin</FormLabel>
@@ -174,8 +178,12 @@ export default function StorePatientData() {
                               <SelectValue placeholder="Pilih Jenis Kelamin" />
                             </SelectTrigger>
                             <SelectContent>
-                              <SelectItem value="LAKI_LAKI">Laki-laki</SelectItem>
-                              <SelectItem value="PEREMPUAN">Perempuan</SelectItem>
+                              <SelectItem value="LAKI_LAKI">
+                                Laki-laki
+                              </SelectItem>
+                              <SelectItem value="PEREMPUAN">
+                                Perempuan
+                              </SelectItem>
                             </SelectContent>
                           </Select>
                         </FormControl>
@@ -185,8 +193,7 @@ export default function StorePatientData() {
                   />
                   <DatePicker name="tanggal_lahir" form={form} />
                   <FormField
-                    control={form.control}
-                    name="asal_daerah"
+                    {...form.register("asal_daerah")}
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Asal Daerah</FormLabel>
@@ -209,8 +216,7 @@ export default function StorePatientData() {
                 </CardHeader>
                 <CardContent className="grid grid-cols-2 gap-4">
                   <FormField
-                    control={form.control}
-                    name="pekerjaan_ayah"
+                    {...form.register("pekerjaan_ayah")}
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Pekerjaan Ayah</FormLabel>
@@ -226,8 +232,7 @@ export default function StorePatientData() {
                     )}
                   />
                   <FormField
-                    control={form.control}
-                    name="pekerjaan_ibu"
+                    {...form.register("pekerjaan_ibu")}
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Pekerjaan Ibu</FormLabel>
@@ -242,184 +247,275 @@ export default function StorePatientData() {
                       </FormItem>
                     )}
                   />
+                  <FormField
+                    {...form.register("nomor_telepon")}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Nomor Telepon</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Nomor Telepon"
+                            {...field}
+                            value={field.value || ""}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
                 </CardContent>
               </Card>
+              {/* Detail Penyakit */}
               <Card>
                 <CardHeader>
                   <div className="font-bold text-lg">Detail Penyakit</div>
                 </CardHeader>
-                <CardContent className="grid grid-cols-2 gap-4">
-                  <FormField
-                    control={form.control}
-                    name="dokter"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Nama Dokter</FormLabel>
-                        <FormControl>
-                          <Input
-                            placeholder="Nama Dokter"
-                            {...field}
-                            value={field.value || ""}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="rumah_sakit"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Rumah Sakit</FormLabel>
-                        <FormControl>
-                          <Input
-                            placeholder="Rumah Sakit"
-                            {...field}
-                            value={field.value || ""}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="klinis"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Klinis</FormLabel>
-                        <FormControl>
-                          <Select
-                            onValueChange={field.onChange}
-                            defaultValue={field.value || ""}
-                          >
-                            <SelectTrigger className="w-full">
-                              <SelectValue placeholder="Pilih Jenis Klinis" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectItem value="laboratorium">
-                                Laboratorium
-                              </SelectItem>
-                              <SelectItem value="radiologi">
-                                Radiologi
-                              </SelectItem>
-                              <SelectItem value="pa">PA</SelectItem>
-                              <SelectItem value="pemeriksaan jantung">
-                                Pemeriksaan Jantung
-                              </SelectItem>
-                            </SelectContent>
-                          </Select>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="diagnosa"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Diagnosa</FormLabel>
-                        <FormControl>
-                          <Textarea
-                            placeholder="Diagnosa"
-                            {...field}
-                            value={field.value || ""}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="terapi"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Terapi</FormLabel>
-                        <FormControl>
-                          <Select
-                            onValueChange={field.onChange}
-                            defaultValue={field.value || ""}
-                          >
-                            <SelectTrigger className="w-full">
-                              <SelectValue placeholder="Pilih Jenis Terapi" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectItem value="kemotrapi">Operasi</SelectItem>
-                              <SelectItem value="kemotrapi">Kemotrapi</SelectItem>
-                              <SelectItem value="radiasi">Radiasi</SelectItem>
-                              <SelectItem value="transplantasi">
-                                Transplantasi
-                              </SelectItem>
-                            </SelectContent>
-                          </Select>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="outcome"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Outcome Pasien</FormLabel>
-                        <FormControl>
-                          <Select
-                            onValueChange={field.onChange}
-                            defaultValue={field.value || ""}
-                          >
-                            <SelectTrigger className="w-full">
-                              <SelectValue placeholder="Pilih Outcome Pasien" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectItem value="Drop Out">Drop out</SelectItem>
-                              <SelectItem value="Relaps/Metastase">
-                                Relaps / Metastase
-                              </SelectItem>
-                              <SelectItem value="Meninggal">
-                                Meninggal
-                              </SelectItem>
-                              <SelectItem value="Pindah Layanan">
-                                Pindah layanan
-                              </SelectItem>
-                              <SelectItem value="Survivor">
-                                {" "}
-                                Survivor
-                              </SelectItem>
-                            </SelectContent>
-                          </Select>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="fifth_survivor"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>5th Survivor</FormLabel>
-                        <FormControl>
-                          <Select
-                            onValueChange={field.onChange}
-                            defaultValue={field.value || ""}
-                          >
-                            <SelectTrigger className="w-full">
-                              <SelectValue placeholder="Pilih" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectItem value="YA">Ya</SelectItem>
-                              <SelectItem value="TIDAK">Tidak</SelectItem>
-                            </SelectContent>
-                          </Select>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                <CardContent className="grid md:grid-cols-2 gap-4">
+                  {/* First Column */}
+                  <div className="flex flex-col gap-4">
+                    <FormField
+                      {...form.register("dokter")}
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Nama Dokter</FormLabel>
+                          <FormControl>
+                            <Input
+                              placeholder="Nama Dokter"
+                              {...field}
+                              value={field.value || ""}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <div className="grid gap-2">
+                      <Label>Informasi Gizi</Label>
+                      <div className="grid gap-2">
+                        <FormField
+                          {...form.register("berat")}
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormControl>
+                                <div className="relative">
+                                  <Input
+                                    type="number"
+                                    placeholder="Berat"
+                                    {...field}
+                                    value={field.value || ""}
+                                    className="pr-10"
+                                  />
+                                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
+                                    <span className="text-sm text-gray-500">
+                                      kg
+                                    </span>
+                                  </div>
+                                </div>
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                        <FormField
+                          {...form.register("tinggi")}
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormControl>
+                                <div className="relative">
+                                  <Input
+                                    type="number"
+                                    placeholder="Tinggi"
+                                    {...field}
+                                    value={field.value || ""}
+                                    className="pr-10"
+                                  />
+                                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
+                                    <span className="text-sm text-gray-500">
+                                      cm
+                                    </span>
+                                  </div>
+                                </div>
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+                    </div>
+                    <Label>Klinis</Label>
+                    <FormImageUpload
+                      klinisValue="LABORATORIUM"
+                      form={form}
+                      label="Laboratorium"
+                    />
+                    <FormImageUpload
+                      klinisValue="RADIOLOGI"
+                      form={form}
+                      label="Radiologi"
+                    />
+                    <FormImageUpload
+                      klinisValue="PATOLOGI_ANATOMI"
+                      form={form}
+                      label="Patologi Anatomi"
+                    />
+                    <FormImageUpload
+                      klinisValue="PEMERIKSAAN_JANTUNG"
+                      form={form}
+                      label="Pemeriksaan Jantung"
+                    />
+                  </div>
+                  {/* Second Column */}
+                  <div className="flex flex-col gap-4">
+                    <FormField
+                      {...form.register("rumah_sakit")}
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Rumah Sakit</FormLabel>
+                          <FormControl>
+                            <Input
+                              placeholder="Rumah Sakit"
+                              {...field}
+                              value={field.value || ""}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      {...form.register("diagnosa")}
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Diagnosa</FormLabel>
+                          <FormControl>
+                            <Textarea
+                              placeholder="Diagnosa"
+                              {...field}
+                              value={field.value || ""}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <PemeriksaanFisikImageInput form={form} />
+                    <EpidemiologiImageInput
+                      form={form}
+                      label="Penyelidikan Epidemiologi"
+                    />
+                    <FormField
+                      {...form.register("terapi")}
+                      render={() => (
+                        <FormItem>
+                          <div className="mb-4">
+                            <FormLabel className="text-base">Terapi</FormLabel>
+                          </div>
+                          <div className="grid grid-cols-2 gap-4">
+                            {" "}
+                            {/* Dibuat grid agar rapi */}
+                            {terapi.map((item) => (
+                              <FormField
+                                key={item}
+                                {...form.register("terapi")}
+                                render={({ field }) => {
+                                  return (
+                                    <FormItem
+                                      key={item}
+                                      className="flex flex-row items-start space-x-3 space-y-0"
+                                    >
+                                      <FormControl>
+                                        <Checkbox
+                                          checked={field.value?.includes(item)}
+                                          onCheckedChange={(checked) => {
+                                            return checked
+                                              ? field.onChange([
+                                                  ...field.value,
+                                                  item,
+                                                ])
+                                              : field.onChange(
+                                                  field.value?.filter(
+                                                    (value: string) =>
+                                                      value !== item,
+                                                  ),
+                                                );
+                                          }}
+                                        />
+                                      </FormControl>
+                                      <FormLabel className="font-normal cursor-pointer">
+                                        {item}
+                                      </FormLabel>
+                                    </FormItem>
+                                  );
+                                }}
+                              />
+                            ))}
+                          </div>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      {...form.register("outcome")}
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Outcome Pasien</FormLabel>
+                          <FormControl>
+                            <Select
+                              onValueChange={field.onChange}
+                              defaultValue={field.value || ""}
+                            >
+                              <SelectTrigger className="w-full">
+                                <SelectValue placeholder="Pilih Outcome Pasien" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="drop_out">
+                                  Drop out
+                                </SelectItem>
+                                <SelectItem value="relaps_metastase">
+                                  Relaps / Metastase
+                                </SelectItem>
+                                <SelectItem value="meninggal">
+                                  Meninggal
+                                </SelectItem>
+                                <SelectItem value="pindah_layanan">
+                                  Pindah layanan
+                                </SelectItem>
+                                <SelectItem value="survivor">
+                                  {" "}
+                                  Survivor
+                                </SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      {...form.register("fifth_survivor")}
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>5th Survivor</FormLabel>
+                          <FormControl>
+                            <Select
+                              onValueChange={field.onChange}
+                              defaultValue={field.value || ""}
+                            >
+                              <SelectTrigger className="w-full">
+                                <SelectValue placeholder="Pilih" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="YA">Ya</SelectItem>
+                                <SelectItem value="TIDAK">Tidak</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
                 </CardContent>
               </Card>
               <div className="flex justify-end col-span-2 space-x-4">
@@ -433,10 +529,11 @@ export default function StorePatientData() {
                   Batal
                 </Button>
                 <Button
+                  disabled={isPending}
                   type="submit"
                   className="px-6 py-2 bg-[#157145] hover:bg-[#157145]/70 text-white rounded-lg"
                 >
-                  Simpan
+                  {isPending ? <Spinner variant="circle" /> : "Simpan"}
                 </Button>
               </div>
             </form>

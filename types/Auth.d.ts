@@ -13,7 +13,12 @@ interface IRegister {
 interface INewPassword {
     oldPassword: string;
     newPassword: string;
+    code?: string;
+}
+
+interface INewPasswordExtended extends INewPassword {
+    email: string | undefined;
 }
 
 
-export type {ILogin, INewPassword, IRegister}
+export type {ILogin, INewPassword, IRegister, INewPasswordExtended}

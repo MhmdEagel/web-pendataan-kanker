@@ -30,6 +30,18 @@ export function getKabupatenColorAndId(
   return { id: res.id, fill: res.fill };
 }
 
+export function searchParamsToObject(
+  params: Record<string, string | undefined>
+) {
+  const obj: Record<string, any> = {};
+  for (const key in params) {
+    if (params[key]) {
+      obj[key] = params[key];
+    }
+  }
+  return obj;
+}
+
 export function parseOutcomeData(filteredObj: {
   drop_out: number;
   meninggal: number;
