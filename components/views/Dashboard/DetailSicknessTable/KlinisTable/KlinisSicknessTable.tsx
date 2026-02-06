@@ -8,7 +8,7 @@ export default async function KlinisSicknessTable({gender}: {gender: "LAKI_LAKI"
     return null;
   }
   return (
-    <div className="w-full pt-4 pb-10 px-8">
+    <div className="print:p-0 pt-4 pb-10 px-8">
       <KlinisSicknessDataTable
         columns={columns}
         data={

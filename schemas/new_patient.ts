@@ -64,7 +64,6 @@ export const newPatientSchema = z.object({
         ? "Pekerjaan ibu tidak boleh kosong"
         : "Input invalid",
   }),
-
   nomor_telepon: z
     .string({
       error: (is) =>
@@ -114,7 +113,6 @@ export const newPatientSchema = z.object({
       iss.input === undefined ? "Tinggi invalid" : "Tinggi harus diisi.",
   }),
   klinisValues: z.array(KlinisValueEnum).min(1, "Pilih minimal satu klinis"),
-
   // ===== IMAGE PER KLINIS =====
   klinisImages: z.object({
     LABORATORIUM: z.array(imageSchema).optional(),

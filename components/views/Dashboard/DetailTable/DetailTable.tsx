@@ -16,6 +16,7 @@ export default function DetailTable({ data }: { data: IChartStatusData[] }) {
   return (
     <div className="w-full mt-4 px-1 sm:px-8">
       <DetailDataTable columns={columns} data={filteredData} />
+
     </div>
   );
 }

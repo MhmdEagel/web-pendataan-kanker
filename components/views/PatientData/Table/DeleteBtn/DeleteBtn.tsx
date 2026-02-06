@@ -1,10 +1,12 @@
+"use client";
+
 import { deleteData } from "@/actions/delete-data";
 import { Button } from "@/components/ui/button";
 import { Trash } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
-export default function DeleteBtn({ patientId }: { patientId: string }) {
+export default function DeleteBtn({ patientId }: { patientId? : string }) {
   const [isPending, setIsPending] = useState(false);
   return (
     <form

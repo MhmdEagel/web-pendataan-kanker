@@ -12,7 +12,7 @@ export default async function OutcomeTable({
     return null;
   }
   return (
-    <div className="w-full pt-4 pb-10 px-8">
+    <div className="print:p-0 pt-4 pb-10 px-8">
       <OutcomeDataTable
         columns={columns}
         data={

@@ -39,7 +39,7 @@ import { FormImageUpload } from "@/components/ui/input-images";
 import { EpidemiologiImageInput } from "@/components/ui/epidemiologi-inputs";
 import { PemeriksaanFisikImageInput } from "@/components/ui/pemeriksaan-fisik-input";
 
-export default function StorePatientData() {
+export default function EditPatientData() {
   const router = useRouter();
 
   const {

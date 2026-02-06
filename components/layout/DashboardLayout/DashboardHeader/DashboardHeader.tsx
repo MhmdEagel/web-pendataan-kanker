@@ -5,7 +5,7 @@ import DashboardTitle from "./DashboardTitle/DashboardTitle";
 
 export default function DashboardHeader() {
   return (
-    <header className="sticky top-0 z-50 flex h-(--header-height) shrink-0 items-center gap-2 border-b transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-(--header-height) shadow-sm bg-primary">
+    <header className="sticky top-0 z-50 flex h-(--header-height) shrink-0 items-center gap-2 border-b transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-(--header-height) shadow-sm bg-primary print:hidden">
       <div className="flex w-full items-center gap-1 px-4 lg:gap-2 lg:px-6">
         <SidebarTrigger className="-ml-1 text-white" />
         <Separator
@@ -13,6 +13,7 @@ export default function DashboardHeader() {
           className="mr-2 data-[orientation=vertical]:h-4 bg-white"
         />
         <DashboardTitle  />
+        <div className="text-white italic ml-auto">RSUD Arifin Achmad</div>
       </div>
     </header>
   );

@@ -23,7 +23,7 @@ const loginUser = async (data: ILogin) => {
     throw new Error("email atau password salah");
   }
 
-  if (user.isTwoFactorEnabled && user.email) {b
+  if (user.isTwoFactorEnabled && user.email) {
     if (code) {
       const twoFactorToken = await getTwoFactorTokenByEmail(user.email);
 

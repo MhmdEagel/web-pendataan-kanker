@@ -24,7 +24,7 @@ export default function DashboardNav() {
   const checkupParams = searchParams.get("checkup");
 
   return (
-    <nav className="flex flex-col gap-2 mb-4">
+    <nav className="flex flex-col gap-2 mb-4 print:hidden">
       <div className="sm:inline-flex w-full justify-start items-center p-0">
         <div className="w-fit border-b-[1.5px]">
           <DashboardNavItem

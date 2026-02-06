@@ -4,6 +4,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   // SidebarFooter,
   SidebarGroup,
   SidebarHeader,
@@ -17,7 +18,7 @@ import {
 import { SidebarItems } from "@/types/Dashboard";
 import { User } from "lucide-react";
 import { signOut } from "next-auth/react";
-// import Image from "next/image";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -31,7 +32,7 @@ export default function DashboardSidebar(props: PropTypes) {
   const url = `/${pathname.split("/").filter(Boolean).slice(0, 2).join("/")}`;
 
   return (
-    <Sidebar className="z-30">
+    <Sidebar className="z-30 print:hidden">
       <SidebarHeader className="mb-3">
         <SidebarMenu>
           <SidebarMenuItem>
@@ -90,15 +91,15 @@ export default function DashboardSidebar(props: PropTypes) {
           </SidebarMenu>
         </SidebarGroup>
       </SidebarContent>
-      {/* <SidebarFooter className="pb-4">
+      <SidebarFooter className="pb-4">
         <Image
           className="block mx-auto"
-          src={"/images/logo_izi_2.png"}
+          src={"/assets/logo/logo_rsud.png"}
           width={100}
           height={100}
-          alt="logo Izi"
+          alt="logo RSUD"
         />
-      </SidebarFooter> */}
+      </SidebarFooter>
     </Sidebar>
   );
 }

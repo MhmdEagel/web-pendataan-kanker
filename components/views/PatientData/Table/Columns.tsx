@@ -7,10 +7,10 @@ import { cn, generateDateString,  } from "@/lib/utils";
 import { ColumnDef } from "@tanstack/react-table";
 import { ExternalLink, Pen, Trash } from "lucide-react";
 import Link from "next/link";
-// import DeleteBtn from "./DeleteBtn/DeleteBtn";
 // import { Checkbox } from "@/components/ui/checkbox";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Patient } from "@/types/Data";
+import DeleteBtn from "./DeleteBtn/DeleteBtn";
 type PatientTable = Omit<
   Patient,
   "pekerjaan_ayah" | "pekerjaan_ibu" | "diagnosa" | "terapi" | "fifth_survivor"
@@ -95,6 +95,7 @@ multiple select
           </PopoverTrigger>
           <PopoverContent side="left" className="w-fit" >
             <div className="gap-4 flex flex-col">
+              <DeleteBtn patientId={id} />
               {/* <Link href={`/dashboard/edit-data/${id}`}>
                 <Button
                 variant={"ghost"}

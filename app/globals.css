@@ -212,3 +212,22 @@
   border: 1px solid #ddd;
   color: #333;
 }
+
+@media print {
+  .print-landscape {
+    page: landscape;
+  }
+
+  @page landscape {
+    size: A4 landscape;
+  }
+
+    .print-section-a {
+    page-break-after: always;
+  }
+
+    .print-break {
+    break-after: page;
+  }
+
+}

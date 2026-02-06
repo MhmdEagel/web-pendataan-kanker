@@ -1,3 +1,4 @@
+import PrintBtn from "@/components/ui/print-btn";
 import Chart from "../Home/Chart";
 import PatientMap from "../PatientMap/PatientMap";
 import DashboardNav from "./DashboardNav/DashboardNav";
@@ -7,6 +8,7 @@ import FifthSurvivorTable from "./DetailSicknessTable/FifthSurvivorTable/FifthSu
 import KlinisSicknessTable from "./DetailSicknessTable/KlinisTable/KlinisSicknessTable";
 import OutcomeTable from "./DetailSicknessTable/OutcomeTable/OutcomeTable";
 import TerapiTable from "./DetailSicknessTable/TerapiTable/TerapiTable";
+import PrintHeader from "../PrintHeader/PrintHeader";
 
 export default function Dashboard({
   searchParams,
@@ -17,7 +19,6 @@ export default function Dashboard({
   const isDetailSickness = searchParams.isDetailSickness;
   const checkup = searchParams.checkup;
 
-
   function renderDashboard() {
     if (isDetail && !isDetailSickness) {
       return <DataCancerLayer />;
@@ -26,56 +27,98 @@ export default function Dashboard({
       switch (checkup) {
         case "Klinis":
           return (
-            <div className="space-y-4 px-2">
-              <div className="text-xl font-bold">Tabel Klinis - Laki-Laki</div>
-              <KlinisSicknessTable gender="LAKI_LAKI" />
-              <div className="text-xl font-bold">Tabel Klinis - Perempuan</div>
-              <KlinisSicknessTable gender="PEREMPUAN" />
-            </div>
+            <>
+              <div className="print:break-after-page print:mt-8">
+                <PrintHeader />
+                <div className="text-xl font-bold print:mb-4">
+                  Tabel Klinis - Laki-Laki
+                </div>
+                <KlinisSicknessTable gender="LAKI_LAKI" />
+              </div>
+              <div className="print:mt-12">
+                <div className="text-xl font-bold print:mb-4">
+                  Tabel Klinis - Perempuan
+                </div>
+                <KlinisSicknessTable gender="PEREMPUAN" />
+              </div>
+              <PrintBtn />
+            </>
           );
         case "Terapi":
           return (
-            <div className="space-y-4 px-2">
-              <div className="text-xl font-bold">Tabel Terapi - Laki-Laki</div>
-              <TerapiTable gender="LAKI_LAKI" />
-              <div className="text-xl font-bold">Tabel Terapi - Perempuan</div>
-              <TerapiTable gender="PEREMPUAN" />
-            </div>
+            <>
+              <div className="print:break-after-page print:mt-8">
+                <PrintHeader />
+                <div className="text-xl font-bold print:mb-4">
+                  Tabel Terapi - Laki-Laki
+                </div>
+                <TerapiTable gender="LAKI_LAKI" />
+              </div>
+              <div className="print:mt-12">
+                <div className="text-xl font-bold print:mb-4">
+                  Tabel Terapi - Perempuan
+                </div>
+                <TerapiTable gender="PEREMPUAN" />
+              </div>
+              <PrintBtn />
+            </>
           );
         case "Outcome":
           return (
-            <div className="space-y-4 px-2">
-              <div className="text-xl font-bold">Tabel Outcome - Laki-Laki</div>
-              <OutcomeTable gender="LAKI_LAKI" />
-              <div className="text-xl font-bold">Tabel Outcome - Perempuan</div>
-              <OutcomeTable gender="PEREMPUAN" />
-            </div>
+            <>
+              <div className="print:break-after-page print:mt-8">
+                <PrintHeader />
+                <div className="text-xl font-bold print:mb-4">
+                  Tabel Outcome - Laki-Laki
+                </div>
+                <OutcomeTable gender="LAKI_LAKI" />
+              </div>
+              <div className="print:mt-12">
+                <div className="text-xl font-bold print:mb-4">
+                  Tabel Outcome - Perempuan
+                </div>
+                <OutcomeTable gender="PEREMPUAN" />
+              </div>
+              <PrintBtn />
+            </>
           );
         case "5th Survivor":
           return (
-            <div className="space-y-4 px-2">
-              <div className="text-xl font-bold">
-                Tabel 5th Survivor - Laki-Laki
+            <>
+              <div className="print:break-after-page print:mt-8">
+                <PrintHeader />
+                <div className="text-xl font-bold print:mb-4">
+                  Tabel 5th Survivor - Laki-Laki
+                </div>
+                <FifthSurvivorTable gender="LAKI_LAKI" />
               </div>
-              <FifthSurvivorTable gender="LAKI_LAKI" />
-              <div className="text-xl font-bold">
-                Tabel 5th Survivor - Perempuan
+              <div className="print:mt-12">
+                <div className="text-xl font-bold print:mb-4">
+                  Tabel 5th Survivor - Perempuan
+                </div>
+                <FifthSurvivorTable gender="PEREMPUAN" />
               </div>
-              <FifthSurvivorTable gender="PEREMPUAN" />
-            </div>
+              <PrintBtn />
+            </>
           );
         case "Penyelidikan Epidemologi":
           return (
-            <div className="space-y-4 px-2">
-              <div className="text-xl font-bold">
-                Tabel Penyelidikan Epidemiologi - Laki-Laki
+            <>
+              <div className="print:break-after-page print:mt-8">
+                <PrintHeader />
+                <div className="text-xl font-bold print:mb-4">
+                  Tabel Penyelidikan Epidemiologi - Laki-Laki
+                </div>
+                <EpidemiologiTable gender="LAKI_LAKI" />
               </div>
-              <EpidemiologiTable gender="LAKI_LAKI" />
-              <div className="text-xl font-bold">
-                Tabel Penyelidikan Epidemiologi - Perempuan
+              <div className="print:mt-12">
+                <div className="text-xl font-bold print:mb-4">
+                  Tabel Penyelidikan Epidemiologi - Perempuan
+                </div>
+                <EpidemiologiTable gender="PEREMPUAN" />
               </div>
-              <EpidemiologiTable gender="PEREMPUAN" />
-            </div>
+              <PrintBtn />
+            </>
           );
 
         default:

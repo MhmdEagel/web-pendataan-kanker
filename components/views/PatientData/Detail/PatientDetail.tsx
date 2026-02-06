@@ -27,6 +27,10 @@ export default function DetailData({ patientId }: { patientId: string }) {
 }
 async function DetailDataCard({ patientId }: { patientId: string }) {
   const data = await getPatientDetailData(patientId);
+
+  console.log(data)
+
+
   if (!data) {
     return (
       <div className="flex flex-col text-center justify-center items-center min-h-[400px] space-y-4">
@@ -216,7 +220,7 @@ async function DetailDataCard({ patientId }: { patientId: string }) {
                           <div className="grid gap-2 mt-4">
                             <Label>Deskripsi</Label>
                             <DetailItemContent className="min-h-8">
-                              {klinisData.PATAOLOGI_ANATOMI.caption}
+                              {klinisData.PATOLOGI_ANATOMI.caption}
                             </DetailItemContent>
                           </div>
                         ) : null}

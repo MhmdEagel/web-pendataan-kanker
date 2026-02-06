@@ -135,8 +135,8 @@ export const getPatientData = async (searchParams?: Record<string, any>) => {
       });
       return res;
     }
-      const res = await db.patient.findMany({})
-      return res
+    const res = await db.patient.findMany({});
+    return res;
   } catch (error) {
     console.error(error);
     return [];
@@ -435,7 +435,17 @@ export const getPatientImagesForCleanup = async (patientId: string) => {
           },
         },
       },
-
+      pemeriksaanFisikDetail: {
+        select: {
+          pemeriksaanImages: {
+            select: {
+              id: true,
+              publicId: true,
+              url: true,
+            },
+          },
+        },
+      },
       epidemiologi: {
         select: {
           tumorImages: {
@@ -452,24 +462,20 @@ export const getPatientImagesForCleanup = async (patientId: string) => {
 
   if (!patient) return null;
 
-  // ======================
-  // KLINIS IMAGES
-  // ======================
-  const klinisImages = patient.klinis.flatMap((klinis) =>
-    klinis.details.flatMap((detail) => detail.images),
+  const klinisImages = patient.klinis.flatMap((k) =>
+    k.details.flatMap((d) => d.images),
   );
 
-  // ======================
-  // EPIDEMIOLOGI IMAGES (BARU)
-  // ======================
-  const epidemiologiImages = patient.epidemiologi.flatMap(
-    (epi) => epi.tumorImages,
-  );
+  const pemeriksaanImages =
+    patient.pemeriksaanFisikDetail?.pemeriksaanImages ?? [];
+
+  const tumorImages = patient.epidemiologi?.tumorImages ?? [];
 
   return {
     klinisImages,
-    epidemiologiImages,
-    allImages: [...klinisImages, ...epidemiologiImages],
+    pemeriksaanImages,
+    tumorImages,
+    allImages: [...klinisImages, ...pemeriksaanImages, ...tumorImages],
   };
 };
 
@@ -551,7 +557,6 @@ export const getAllPatientCountEpidemiologiByGender = async (
 
 const normalizePatientDetail = (patient: any) => {
   if (!patient) return null;
-
   // ======================
   // KLINIS (TETAP)
   // ======================

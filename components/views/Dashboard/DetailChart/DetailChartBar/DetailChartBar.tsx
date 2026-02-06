@@ -45,7 +45,7 @@ export function DetailChartBar({
   const searchParams = useSearchParams();
   const kabupatenParams = searchParams.get("kabupaten");
   const filteredData = chartData?.filter(
-    (item) => item.kabupaten === kabupatenParams
+    (item) => item.kabupaten === kabupatenParams,
   );
   const { kabupaten, ...rest } = filteredData![0];
   const parsedData = parseOutcomeData(rest);
@@ -60,12 +60,15 @@ export function DetailChartBar({
         <div className="text-lg font-bold">{kabupatenParams} - Outcome</div>
       </CardHeader>
       <CardContent>
-        <ChartContainer className="md:h-[300px] mx-auto" config={chartConfig}>
+        <ChartContainer
+          className="md:h-[300px] mx-auto print:mx-auto print:flex print:justify-center print:items-center print:h-[280px]"
+          config={chartConfig}
+        >
           <BarChart accessibilityLayer data={parsedData}>
             <CartesianGrid vertical={false} />
             <XAxis
               dataKey="outcome"
-              tickLine={false} 
+              tickLine={false}
               tickMargin={14}
               axisLine={false}
               interval={0}
@@ -75,20 +78,35 @@ export function DetailChartBar({
                 const cfg = chartConfig[payload.value];
                 const outcomeObj = parsedData.filter(
                   (item) =>
-                    item.outcome === formatLabelToValueOutcome(cfg.label)
+                    item.outcome === formatLabelToValueOutcome(cfg.label),
                 )[0];
                 const percentage = getOutcomePercentage(
                   outcomeObj.patients,
-                  totalPatients
+                  totalPatients,
                 );
                 return (
                   <text x={x} y={y} textAnchor="middle" fill="black">
                     {/* Baris pertama (persen) */}
-                    <tspan x={x} dy="0" fontSize={window.innerWidth < 400 ? 10 : 14} fontWeight={700}>
+                    <tspan
+                      x={x}
+                      dy="0"
+                      fontSize={window.innerWidth < 400 ? 10 : 14}
+                      fontWeight={700}
+                    >
                       {percentage}%
                     </tspan>
                     {/* Baris kedua (judul outcome) */}
-                    <tspan x={x} dy="15" fontSize={window.innerWidth < 556 ? 6 : window.innerHeight < 600 ? 7 : 12}>
+                    <tspan
+                      x={x}
+                      dy="15"
+                      fontSize={
+                        window.innerWidth < 556
+                          ? 6
+                          : window.innerHeight < 600
+                            ? 7
+                            : 12
+                      }
+                    >
                       {cfg.label}
                     </tspan>
                   </text>

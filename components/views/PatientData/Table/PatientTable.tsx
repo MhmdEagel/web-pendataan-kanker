@@ -12,7 +12,7 @@ export default async function DataPatientTable({
     return null;
   }
   return (
-    <div className="w-full pt-4 pb-10">
+    <div className=" w-full pt-4 pb-10">
       <DataTable columns={columns} data={data} />
     </div>
   );
