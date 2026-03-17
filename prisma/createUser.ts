@@ -8,8 +8,8 @@ async function main() {
   await prisma.user.deleteMany({})
   await prisma.user.create({
     data: {
-      email: "wagianto190617@gmail.com", // ganti email
-      fullname: "Wagianto", // ganti nama
+      email: "muhammadeagel@gmail.com", // ganti email
+      fullname: "Muhammad Eagel Triutama", // ganti nama
       password: hashedPassword,
     },
   });

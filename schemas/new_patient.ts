@@ -7,6 +7,8 @@ const KlinisValueEnum = z.enum([
   "PEMERIKSAAN_JANTUNG",
 ]);
 
+
+
 const EpidemiologiValueEnum = z.enum([
   "PUCAT",
   "PENDARAHAN",

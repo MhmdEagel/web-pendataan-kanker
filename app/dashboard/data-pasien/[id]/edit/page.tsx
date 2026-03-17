@@ -1,7 +1,12 @@
-import React from 'react'
+import EditPatientDataContainer from '@/components/views/PatientData/Edit/EditPatientDataContainer';
 
-export default function EditPatientPage() {
+export default async function EditPatientPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
   return (
-    <div>EditPatientPage</div>
+    <EditPatientDataContainer patientId={id} />
   )
 }

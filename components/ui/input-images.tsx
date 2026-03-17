@@ -17,33 +17,55 @@ import { Checkbox } from "./checkbox";
 import { Label } from "./label";
 import { Textarea } from "./textarea";
 
-interface FormImageUploadProps {
-  form: UseFormReturn<any>;
-  label: string;
-  klinisValue:
-    | "LABORATORIUM"
-    | "RADIOLOGI"
-    | "PATOLOGI_ANATOMI"
-    | "PEMERIKSAAN_JANTUNG"
+type KlinisValue =
+  | "LABORATORIUM"
+  | "RADIOLOGI"
+  | "PATOLOGI_ANATOMI"
+  | "PEMERIKSAAN_JANTUNG";
+
+interface ExistingImage {
+  id: string;
+  fileName: string;
+  url: string;
 }
 
 interface PreviewImage {
+  id?: string;
   name: string;
   previewUrl: string;
+  isNew: boolean;
+}
+
+interface FormImageUploadProps {
+  form: UseFormReturn<any>;
+  label: string;
+  klinisValue: KlinisValue;
+  existingImages?: ExistingImage[];
 }
 
 export function FormImageUpload({
   form,
   label,
   klinisValue,
+  existingImages = [],
 }: FormImageUploadProps) {
-  const [previews, setPreviews] = useState<PreviewImage[]>([]);
-  const selectedValues: string[] = form.watch("klinisValues") ?? [];
+  /* ================= PREVIEW STATE (INIT LANGSUNG) ================= */
+  const [previews, setPreviews] = useState<PreviewImage[]>(
+    () =>
+      existingImages.map((img) => ({
+        id: img.id,
+        name: img.fileName,
+        previewUrl: img.url,
+        isNew: false,
+      })),
+  );
+
+  const selectedValues: KlinisValue[] = form.watch("klinisValues") ?? [];
   const isChecked = selectedValues.includes(klinisValue);
 
   return (
     <>
-      {/* ===== CHECKBOX ===== */}
+      {/* ================= CHECKBOX ================= */}
       <FormField
         control={form.control}
         name="klinisValues"
@@ -56,9 +78,10 @@ export function FormImageUpload({
                   field.onChange([...field.value, klinisValue]);
                 } else {
                   field.onChange(
-                    field.value.filter((v: string) => v !== klinisValue),
+                    field.value.filter((v: KlinisValue) => v !== klinisValue),
                   );
-                  // reset images kalau uncheck
+
+                  // reset image baru
                   form.setValue(`klinisImages.${klinisValue}`, []);
                   setPreviews([]);
                 }
@@ -69,7 +92,7 @@ export function FormImageUpload({
         )}
       />
 
-      {/* ===== IMAGE UPLOAD ===== */}
+      {/* ================= IMAGE INPUT ================= */}
       <Card>
         <CardContent>
           <FormField
@@ -78,23 +101,43 @@ export function FormImageUpload({
             render={({ field }) => {
               const files: File[] = field.value ?? [];
 
+              /* ===== TAMBAH IMAGE BARU ===== */
               const handleDrop = (dropped: File[]) => {
                 const file = dropped[0];
                 if (!file) return;
 
                 field.onChange([...files, file]);
+
                 setPreviews((prev) => [
                   ...prev,
                   {
                     name: file.name,
                     previewUrl: URL.createObjectURL(file),
+                    isNew: true,
                   },
                 ]);
               };
 
-              const handleDelete = (fileName: string) => {
-                field.onChange(files.filter((f) => f.name !== fileName));
-                setPreviews((prev) => prev.filter((p) => p.name !== fileName));
+              /* ===== HAPUS IMAGE ===== */
+              const handleDelete = (item: PreviewImage) => {
+                if (item.isNew) {
+                  // image baru → hapus dari RHF
+                  field.onChange(
+                    files.filter((f) => f.name !== item.name),
+                  );
+                } else {
+                  // image lama → tandai buat delete backend
+                  const deleted =
+                    form.getValues("deletedKlinisImageIds") ?? [];
+                  form.setValue("deletedKlinisImageIds", [
+                    ...deleted,
+                    item.id,
+                  ]);
+                }
+
+                setPreviews((prev) =>
+                  prev.filter((p) => p.name !== item.name),
+                );
               };
 
               return (
@@ -120,27 +163,36 @@ export function FormImageUpload({
                       </DropzoneEmptyState>
                     </Dropzone>
                   </FormControl>
+
+                  {/* ===== PREVIEW ===== */}
                   <div className="my-4 space-y-2">
                     {previews.map((item) => (
                       <ImageItem
-                        key={item.name}
+                        key={item.id ?? item.name}
                         imageName={item.name}
                         previewUrl={item.previewUrl}
-                        onDelete={handleDelete}
+                        onDelete={() => handleDelete(item)}
                       />
                     ))}
                   </div>
+
                   <FormMessage />
                 </FormItem>
               );
             }}
           />
+
+          {/* ================= CAPTION ================= */}
           <FormField
             name={`klinisCaptions.${klinisValue}`}
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Textarea disabled={!isChecked} placeholder="Deskripsi klinis..." {...field} />
+                  <Textarea
+                    disabled={!isChecked}
+                    placeholder="Deskripsi klinis..."
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -152,6 +204,7 @@ export function FormImageUpload({
   );
 }
 
+/* ================= IMAGE ITEM ================= */
 function ImageItem({
   imageName,
   previewUrl,
@@ -159,7 +212,7 @@ function ImageItem({
 }: {
   imageName: string;
   previewUrl: string;
-  onDelete: (fileName: string) => void;
+  onDelete: () => void;
 }) {
   return (
     <div className="flex items-center gap-2">
@@ -174,7 +227,7 @@ function ImageItem({
         type="button"
         size="icon"
         variant="ghost"
-        onClick={() => onDelete(imageName)}
+        onClick={onDelete}
       >
         <X className="size-4" />
       </Button>

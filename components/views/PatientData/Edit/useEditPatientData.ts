@@ -1,7 +1,7 @@
 import { addPatientData } from "@/actions/add-patient-data";
 import { tambahDataExcel } from "@/actions/add-patient-data-excel";
 import { newPatientSchema } from "@/schemas/new_patient";
-import { NewPatient, Patient } from "@/types/Data";
+import { NewPatient, PatientExtended } from "@/types/Data";
 import { zodResolver } from "@hookform/resolvers/zod";
 import dayjs from "dayjs";
 import { useRouter } from "next/navigation";
@@ -11,29 +11,69 @@ import { toast } from "sonner";
 import * as XLSX from "xlsx";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import z from "zod";
+import { Gender } from "@prisma/client";
 
 dayjs.extend(customParseFormat);
 
-export function useEditPatientData() {
+export function useEditPatientData({
+  patientData,
+}: {
+  patientData: PatientExtended;
+}) {
   const [isPending, setIsPending] = useState(false);
   const [activeTab, setActiveTab] = useState("form_tambah");
   const router = useRouter();
   const [files, setFiles] = useState<File[] | undefined>();
   const [isPendingUpload, setIsPendingUpload] = useState(false);
 
+  console.log(patientData);
+
   const form = useForm({
     resolver: zodResolver(newPatientSchema),
     defaultValues: {
-      klinisValues: [],
+      nama: patientData.patient.nama,
+      nik: patientData.patient.nik,
+      jenis_kelamin: patientData.patient.jenis_kelamin as Gender,
+      tanggal_lahir: new Date(patientData.patient.tanggal_lahir),
+      asal_daerah: patientData.patient.asal_daerah,
+      pekerjaan_ayah: patientData.patient.pekerjaan_ayah,
+      pekerjaan_ibu: patientData.patient.pekerjaan_ibu,
+      nomor_telepon: patientData.patient.nomor_telepon,
+      dokter: patientData.patient.dokter,
+      rumah_sakit: patientData.patient.rumah_sakit,
+      diagnosa: patientData.patient.diagnosa,
+      outcome: patientData.patient.outcome,
+      fifth_survivor: patientData.patient.fifth_survivor,
+
+      tinggi: patientData.patient.tinggi,
+      berat: patientData.patient.berat,
+
+      // ===== ENUM / ARRAY =====
+      klinisValues:
+        (patientData.klinisValues as Array<
+          | "LABORATORIUM"
+          | "RADIOLOGI"
+          | "PATOLOGI_ANATOMI"
+          | "PEMERIKSAAN_JANTUNG"
+        >) ?? [],
+      penyelidikan_epidemiologi:
+        (patientData.epidemiologiValues as Array<
+          | "PUCAT"
+          | "PENDARAHAN"
+          | "SPLENONEGALI"
+          | "DEMAM"
+          | "HEPALOMEGALI"
+          | "TUMOR"
+        >) ?? [],
+      terapi: patientData.terapiValues ?? [],
+      // ===== IMAGE INPUT (HARUS ARRAY, TAwPI KOSONG) =====
       klinisImages: {
         LABORATORIUM: [],
         RADIOLOGI: [],
         PATOLOGI_ANATOMI: [],
         PEMERIKSAAN_JANTUNG: [],
       },
-      penyelidikan_epidemiologi: [],
       pemeriksaanFisikImages: [],
-      terapi: [],
     },
   });
   const handleNewPatientData = async (
