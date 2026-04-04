@@ -103,7 +103,6 @@ export function useEditPatientData({
     }
     setIsPending(false);
     toast.success(res.success);
-    console.log(res.data)
     // router.push("/dashboard/data-pasien");
   };
 

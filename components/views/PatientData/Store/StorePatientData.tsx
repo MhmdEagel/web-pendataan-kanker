@@ -48,10 +48,10 @@ export default function EditPatientData() {
     handleNewPatientData,
     activeTab,
     setActiveTab,
-    files,
-    isPendingUpload,
+    // files,
+    // isPendingUpload,
     isPending,
-    handleDrop,
+    // handleDrop,
   } = useStorePatientData();
 
   const fifthSurvivor = form.watch("fifth_survivor");
@@ -83,7 +83,7 @@ export default function EditPatientData() {
         </Button>
       </div>
       <CardContent>
-        {activeTab === "upload_excel" ? (
+        {/* {activeTab === "upload_excel" ? (
           <>
             <div className="text-lg font-bold mb-2">Upload File</div>
             <Dropzone
@@ -124,7 +124,7 @@ export default function EditPatientData() {
               </DropzoneContent>
             </Dropzone>{" "}
           </>
-        ) : null}
+        ) : null} */}
         {activeTab == "form_tambah" ? (
           <Form {...form}>
             <form
