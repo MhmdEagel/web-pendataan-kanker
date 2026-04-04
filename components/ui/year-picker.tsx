@@ -30,7 +30,7 @@ export default function YearPicker(props: YearPickerProps) {
   const defaultValue = form.getValues("fifth_survivor_tahun");
 
   // generate range tahun (dinamis, bukan asal 100)
-  const years = [];
+  const years: number[] = [];
   for (let y = endYear; y >= startYear; y--) {
     years.push(y);
   }
