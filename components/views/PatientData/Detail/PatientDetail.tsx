@@ -4,8 +4,8 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Spinner } from "@/components/ui/spinner";
 import { getPatientDetailData } from "@/data/patient";
-import { cn, generateDateString } from "@/lib/utils";
-import { LinkIcon, SquareArrowOutUpRight } from "lucide-react";
+import { cn, generateDateString, getDateYear } from "@/lib/utils";
+import { SquareArrowOutUpRight } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
 export default function DetailData({ patientId }: { patientId: string }) {
@@ -28,11 +28,10 @@ export default function DetailData({ patientId }: { patientId: string }) {
 async function DetailDataCard({ patientId }: { patientId: string }) {
   const data = await getPatientDetailData(patientId);
 
-  console.log(data)
-
+  console.log(data);
 
   if (!data) {
-    return (
+    return (  
       <div className="flex flex-col text-center justify-center items-center min-h-[400px] space-y-4">
         <div className="text-foreground text-2xl font-bold mb-2">
           Data Tidak Ditemukan
@@ -48,6 +47,8 @@ async function DetailDataCard({ patientId }: { patientId: string }) {
 
   const { patient, epidemiologiValues, klinisData, klinisValues } = data;
 
+  console.log(patient.fifth_survivor_tahun)
+
   return (
     <div className="grid gap-4">
       <Card>
@@ -56,6 +57,14 @@ async function DetailDataCard({ patientId }: { patientId: string }) {
         </CardHeader>
         <CardContent>
           <div className="grid md:grid-cols-2 gap-4">
+            <DetailItem>
+              <DetailItemLabel>Nomor Register</DetailItemLabel>
+              <DetailItemContent>{patient.no_register}</DetailItemContent>
+            </DetailItem>
+            <DetailItem>
+              <DetailItemLabel>Nomor RM</DetailItemLabel>
+              <DetailItemContent>{patient.no_rm}</DetailItemContent>
+            </DetailItem>
             <DetailItem>
               <DetailItemLabel>NIK</DetailItemLabel>
               <DetailItemContent>{patient.nik}</DetailItemContent>
@@ -342,8 +351,18 @@ async function DetailDataCard({ patientId }: { patientId: string }) {
               </DetailItem>
               <DetailItem>
                 <DetailItemLabel>5th Survivor</DetailItemLabel>
-                <DetailItemContent className="capitalize">{patient.fifth_survivor.toLowerCase()}</DetailItemContent>
+                <DetailItemContent className="capitalize">
+                  {patient.fifth_survivor.toLowerCase()}
+                </DetailItemContent>
               </DetailItem>
+              {patient.fifth_survivor === "YA" && (
+                <DetailItem>
+                  <DetailItemLabel>Tahun Fifth Survivor</DetailItemLabel>
+                  <DetailItemContent className="capitalize">
+                    {getDateYear(patient.fifth_survivor_tahun)}
+                  </DetailItemContent>
+                </DetailItem>
+              )}
             </div>
           </div>
         </CardContent>

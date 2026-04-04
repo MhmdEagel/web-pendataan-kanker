@@ -8,10 +8,9 @@ export default function Chart() {
     </Suspense>
   );
 }
-
 function LoadingChart() {
   return (
-    <div className="flex flex-col gap-7  items-center min-h-[420px]">
+    <div className="flex flex-col gap-7  items-center min-h-[450px] mt-6">
       <div className="flex flex-col items-center gap-4 min-w-[550px]">
         <Skeleton className="w-62 h-62 rounded-full bg-slate-200" />
         <div className="flex gap-3">

@@ -38,6 +38,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { FormImageUpload } from "@/components/ui/input-images";
 import { EpidemiologiImageInput } from "@/components/ui/epidemiologi-inputs";
 import { PemeriksaanFisikImageInput } from "@/components/ui/pemeriksaan-fisik-input";
+import YearPicker from "@/components/ui/year-picker";
 
 export default function EditPatientData() {
   const router = useRouter();
@@ -52,6 +53,9 @@ export default function EditPatientData() {
     isPending,
     handleDrop,
   } = useStorePatientData();
+
+  const fifthSurvivor = form.watch("fifth_survivor");
+
   return (
     <Card className="p-8">
       <div className="flex">
@@ -132,6 +136,43 @@ export default function EditPatientData() {
                   <div className="text-lg font-bold">Identitas Pasien</div>
                 </CardHeader>
                 <CardContent className="grid md:grid-cols-2 gap-4">
+                  <DatePicker
+                    label="Tanggal"
+                    name="tanggal_input"
+                    form={form}
+                  />
+                  <FormField
+                    {...form.register("no_register")}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Nomor Register</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Nomor Register"
+                            {...field}
+                            value={field.value || ""}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    {...form.register("no_rm")}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Nomor RM</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Nomor RM"
+                            {...field}
+                            value={field.value || ""}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
                   <FormField
                     {...form.register("nik")}
                     render={({ field }) => (
@@ -191,7 +232,11 @@ export default function EditPatientData() {
                       </FormItem>
                     )}
                   />
-                  <DatePicker name="tanggal_lahir" form={form} />
+                  <DatePicker
+                    label="Tanggal Lahir"
+                    name="tanggal_lahir"
+                    form={form}
+                  />
                   <FormField
                     {...form.register("asal_daerah")}
                     render={({ field }) => (
@@ -515,6 +560,13 @@ export default function EditPatientData() {
                         </FormItem>
                       )}
                     />
+                    {fifthSurvivor === "YA" && (
+                      <YearPicker
+                        form={form}
+                        name="fifth_survivor_tahun"
+                        label="Tahun Fifth Survivor"
+                      />
+                    )}
                   </div>
                 </CardContent>
               </Card>

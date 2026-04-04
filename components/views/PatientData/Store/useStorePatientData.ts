@@ -1,7 +1,7 @@
 import { addPatientData } from "@/actions/add-patient-data";
 import { tambahDataExcel } from "@/actions/add-patient-data-excel";
 import { newPatientSchema } from "@/schemas/new_patient";
-import { NewPatient, Patient } from "@/types/Data";
+import { NewPatient } from "@/types/Data";
 import { zodResolver } from "@hookform/resolvers/zod";
 import dayjs from "dayjs";
 import { useRouter } from "next/navigation";
@@ -24,6 +24,7 @@ export function useStorePatientData() {
   const form = useForm({
     resolver: zodResolver(newPatientSchema),
     defaultValues: {
+      fifth_survivor: "",
       klinisValues: [],
       klinisImages: {
         LABORATORIUM: [],

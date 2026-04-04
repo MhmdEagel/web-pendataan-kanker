@@ -18,18 +18,40 @@ import { Checkbox } from "./checkbox";
 import { epidemiologi } from "../constants/input.constant";
 import { Textarea } from "./textarea";
 
+interface ExistingImage {
+  id: string;
+  fileName: string;
+  url: string;
+}
+
 interface FormImageUploadProps {
   form: UseFormReturn<any>;
   label: string;
+  existingImages?: ExistingImage[];
+  existingDescription?: string;
 }
 
 interface PreviewImage {
+  id?: string;
   name: string;
   previewUrl: string;
+  isNew: boolean;
 }
 
-export function EpidemiologiImageInput({ form, label }: FormImageUploadProps) {
-  const [previews, setPreviews] = useState<PreviewImage[]>([]);
+export function EpidemiologiImageInput({ 
+  form, 
+  label,
+  existingImages = [],
+  existingDescription = "",
+}: FormImageUploadProps) {
+  const [previews, setPreviews] = useState<PreviewImage[]>(() =>
+    existingImages.map((img) => ({
+      id: img.id,
+      name: img.fileName,
+      previewUrl: img.url,
+      isNew: false,
+    })),
+  );
   const selectedValues: string[] =
     form.watch("penyelidikan_epidemiologi") ?? [];
   const isChecked = selectedValues.includes("TUMOR");
@@ -108,14 +130,20 @@ export function EpidemiologiImageInput({ form, label }: FormImageUploadProps) {
                     {
                       name: file.name,
                       previewUrl: URL.createObjectURL(file),
+                      isNew: true,
                     },
                   ]);
                 };
 
-                const handleDelete = (fileName: string) => {
-                  field.onChange(files.filter((f) => f.name !== fileName));
+                const handleDelete = (item: PreviewImage) => {
+                  if (item.isNew) {
+                    field.onChange(files.filter((f) => f.name !== item.name));
+                  } else {
+                    const deleted = form.getValues("deletedTumorImageIds") ?? [];
+                    form.setValue("deletedTumorImageIds", [...deleted, item.id]);
+                  }
                   setPreviews((prev) =>
-                    prev.filter((p) => p.name !== fileName),
+                    prev.filter((p) => p.name !== item.name),
                   );
                 };
 
@@ -145,10 +173,10 @@ export function EpidemiologiImageInput({ form, label }: FormImageUploadProps) {
                     <div className="mt-4 space-y-2">
                       {previews.map((item) => (
                         <ImageItem
-                          key={item.name}
+                          key={item.id ?? item.name}
                           imageName={item.name}
                           previewUrl={item.previewUrl}
-                          onDelete={handleDelete}
+                          onDelete={() => handleDelete(item)}
                         />
                       ))}
                     </div>
@@ -186,7 +214,7 @@ function ImageItem({
 }: {
   imageName: string;
   previewUrl: string;
-  onDelete: (fileName: string) => void;
+  onDelete: () => void;
 }) {
   return (
     <div className="flex items-center gap-2">
@@ -201,7 +229,7 @@ function ImageItem({
         type="button"
         size="icon"
         variant="ghost"
-        onClick={() => onDelete(imageName)}
+        onClick={onDelete}
       >
         <X className="size-4" />
       </Button>

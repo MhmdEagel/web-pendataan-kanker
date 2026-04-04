@@ -79,19 +79,22 @@ async function seed() {
   await prisma.patient.deleteMany({});
 
   for (const daerah of kabupaten) {
-    for (let i = 0; i < 60; i++) {
+    const totalPatient = faker.number.int({ min: 50, max: 100 });
+
+    console.log(`📍 ${daerah}: ${totalPatient} pasien`);
+
+    for (let i = 0; i < totalPatient; i++) {
       const terapiDipilih = faker.helpers
         .arrayElements(terapiSet, faker.number.int({ min: 1, max: 3 }))
         .join(", ");
 
-      // 1️⃣ BUAT EPIDEMIOLOGI DULU
-      const epidemiologi = await prisma.epidemiologi.create({
+      // 1️⃣ Pemeriksaan Fisik
+      const pemeriksaanFisik = await prisma.pemeriksaanFisikDetail.create({
         data: {
-          value: faker.helpers.arrayElement(epidemiologiSet),
-          tumorDescription: faker.lorem.paragraph(),
-          tumorImages: {
+          description: faker.lorem.sentence(),
+          pemeriksaanImages: {
             create: {
-              fileName: "tumor.jpg",
+              fileName: "fisik.jpg",
               publicId: faker.string.uuid(),
               url: faker.image.url(),
             },
@@ -99,8 +102,25 @@ async function seed() {
         },
       });
 
-      // 2️⃣ BARU BUAT PATIENT + CONNECT
-      await prisma.patient.create({
+      // 2️⃣ Epidemiologi
+      const epidemiologi = await prisma.epidemiologi.create({
+        data: {
+          value: faker.helpers.arrayElement(epidemiologiSet),
+          tumorDescription: faker.lorem.paragraph(),
+          tumorImages: {
+            create: [
+              {
+                fileName: "tumor.jpg",
+                publicId: faker.string.uuid(),
+                url: faker.image.url(),
+              },
+            ],
+          },
+        },
+      });
+
+      // 3️⃣ Patient
+      const patient = await prisma.patient.create({
         data: {
           nama: faker.person.fullName(),
           nik: randomNIK(),
@@ -109,6 +129,8 @@ async function seed() {
             Gender.PEREMPUAN,
           ]),
           tanggal_lahir: faker.date.past({ years: 20 }),
+          no_register: faker.string.alphanumeric(10),
+          no_rm: faker.string.alphanumeric(8),
           asal_daerah: daerah,
           pekerjaan_ayah: faker.helpers.arrayElement(pekerjaanAyah),
           pekerjaan_ibu: faker.helpers.arrayElement(pekerjaanIbu),
@@ -118,45 +140,36 @@ async function seed() {
           terapi: terapiDipilih,
           outcome: faker.helpers.arrayElement(outcomeSet),
           fifth_survivor: faker.helpers.arrayElement(fifthSet),
+          fifth_survivor_tahun: faker.datatype.boolean()
+            ? faker.date.past()
+            : null,
           nomor_telepon: faker.phone.number(),
           berat: faker.number.int({ min: 10, max: 80 }),
           tinggi: faker.number.int({ min: 60, max: 180 }),
 
-          epidemiologi: {
-            connect: {
-              id: epidemiologi.id,
-            },
-          },
+          epidemiologiId: epidemiologi.id,
+          pemeriksaanFisikDetailId: pemeriksaanFisik.id,
+        },
+      });
 
-          pemeriksaanFisikDetail: {
-            create: {
-              description: faker.lorem.sentence(),
-              pemeriksaanImages: {
-                create: {
-                  fileName: "fisik.jpg",
-                  publicId: faker.string.uuid(),
-                  url: faker.image.url(),
-                },
-              },
-            },
-          },
-
-          klinis: {
-            create: {
-              details: {
-                create: {
-                  value: mapKlinisValue(),
-                  caption: faker.lorem.sentence(),
-                  images: {
-                    create: {
-                      fileName: "klinis.jpg",
-                      publicId: faker.string.uuid(),
-                      url: faker.image.url(),
-                    },
+      // 4️⃣ Klinis
+      await prisma.klinis.create({
+        data: {
+          patientId: patient.id,
+          details: {
+            create: [
+              {
+                value: mapKlinisValue(),
+                caption: faker.lorem.sentence(),
+                images: {
+                  create: {
+                    fileName: "klinis.jpg",
+                    publicId: faker.string.uuid(),
+                    url: faker.image.url(),
                   },
                 },
               },
-            },
+            ],
           },
         },
       });

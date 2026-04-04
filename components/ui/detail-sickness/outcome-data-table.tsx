@@ -53,6 +53,8 @@ export function OutcomeDataTable<TData, TValue>({
   const pindahLayananTotal = useGetTotalByColumnId(table, "pindah_layanan");
   const survivorTotal = useGetTotalByColumnId(table, "survivor");
 
+
+  console.log(relapsMetastaseTotal)
   return (
     <div>
       <div className="overflow-hidden rounded-xl border border-gray-400">

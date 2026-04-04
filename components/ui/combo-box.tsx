@@ -10,29 +10,31 @@ export function ComboBox({
   options,
   field,
   placeholder,
+  defaultValue,
 }: {
   options: IKabupaten[];
   field: ControllerRenderProps<any>;
   placeholder: string;
+  defaultValue?: string;
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState("");
-  const [inputValue, setInputValue] = useState("");
+  const [inputValue, setInputValue] = useState(defaultValue ?? "");
 
   const filteredOptions = options.filter((item) =>
-    item.label.toLowerCase().includes(inputValue.toLowerCase())
+    item.label.toLowerCase().includes(inputValue.toLowerCase()),
   );
 
   const handleSelect = (item: IKabupaten) => {
     setSelectedValue(item.value);
     setInputValue(item.value);
-    field.onChange(item.value)
+    field.onChange(item.value);
     setIsOpen(false);
   };
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
-    field.onChange(e.target.value)
+    field.onChange(e.target.value);
     setIsOpen(true);
   };
 

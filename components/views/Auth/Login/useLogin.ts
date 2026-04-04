@@ -11,7 +11,7 @@ export const useLogin = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [isPending, setIsPending] = useState(false);
   const [showTwoFactor, setShowTwoFactor] = useState(false);
-  const router = useRouter()
+  const router = useRouter();
 
   const form = useForm({
     resolver: zodResolver(loginSchema),
@@ -24,11 +24,12 @@ export const useLogin = () => {
       if (res.success) {
         form.reset();
         toast.success(res.success);
-        router.replace("/dashboard")
+        router.replace("/dashboard");
       }
       if (res.error) {
         form.reset();
         toast.error(res.error);
+        setShowTwoFactor(false);
       }
       if (res.twoFactor) {
         setShowTwoFactor(true);
@@ -46,5 +47,5 @@ export const useLogin = () => {
     handleVisibility,
     showTwoFactor,
     handleFormLogin,
-  }; 
+  };
 };

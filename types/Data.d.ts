@@ -20,6 +20,9 @@ interface Patient {
 interface PatientExtended {
   patient: {
     id: string;
+    tanggal_input: Date;
+    no_rm: string;
+    no_register: string;
     nama: string;
     nik: string;
     jenis_kelamin: string;
@@ -33,14 +36,15 @@ interface PatientExtended {
     terapi: string;
     outcome: string;
     fifth_survivor: string;
+    fifth_survivor_tahun: Date;
     tinggi: string;
     berat: string;
     nomor_telepon: string;
     pemeriksaanFisikDetail: {
       description: string;
-      images: string;
+      images: Array<{ id: string; fileName: string; url: string; publicId: string }>;
     };
-    tumorImages: string;
+    tumorImages: Array<{ id: string; fileName: string; url: string; publicId: string }>;
     tumorDescription: string;
   };
   klinisValues: string[];
@@ -48,7 +52,7 @@ interface PatientExtended {
     string,
     {
       caption: string | null;
-      images: string[];
+      images: any[];
     }
   >;
   epidemiologiValues: string[];

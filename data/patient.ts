@@ -595,16 +595,20 @@ const normalizePatientDetail = (patient: any) => {
   return {
     patient: {
       id: patient.id,
+      no_rm: patient.no_rm,
+      no_register: patient.no_register,
       nama: patient.nama,
       nik: patient.nik,
       jenis_kelamin: patient.jenis_kelamin,
       tanggal_lahir: patient.tanggal_lahir,
+      tanggal_input: patient.tanggal_input,
       asal_daerah: patient.asal_daerah,
       pekerjaan_ayah: patient.pekerjaan_ayah,
       pekerjaan_ibu: patient.pekerjaan_ibu,
       dokter: patient.dokter,
       rumah_sakit: patient.rumah_sakit,
       diagnosa: patient.diagnosa,
+      
 
       terapi:
         patient.terapi?.split(", ").filter((t: string) => terapi.includes(t)) ??
@@ -612,6 +616,8 @@ const normalizePatientDetail = (patient: any) => {
 
       outcome: patient.outcome,
       fifth_survivor: patient.fifth_survivor,
+      fifth_survivor_tahun: patient.fifth_survivor_tahun,
+
       tinggi: patient.tinggi,
       berat: patient.berat,
       nomor_telepon: patient.nomor_telepon,

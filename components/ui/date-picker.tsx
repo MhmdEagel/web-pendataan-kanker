@@ -13,10 +13,11 @@ import { Calendar } from "./calendar";
 type TextInputProps = {
   form: UseFormReturn<any>;
   name: string;
+  label: string
 };
 
 export default function DatePicker(props: TextInputProps) {
-  const { form, name } = props;
+  const { form, name, label } = props;
   const [open, setOpen] = useState(false);
   return (
     <FormField
@@ -24,7 +25,7 @@ export default function DatePicker(props: TextInputProps) {
       name={name}
       render={({ field }) => (
         <FormItem className="flex flex-col items-start">
-          <FormLabel>Tanggal Lahir</FormLabel>
+          <FormLabel>{label}</FormLabel>
           {/* popover */}
           <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger asChild>
@@ -46,6 +47,7 @@ export default function DatePicker(props: TextInputProps) {
             <PopoverContent className="w-auto p-0">
               <Calendar
                 mode="single"
+                captionLayout="dropdown"
                 selected={field.value}
                 onSelect={(date) => {
                     field.onChange(date)

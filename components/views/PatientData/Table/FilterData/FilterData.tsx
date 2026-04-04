@@ -10,7 +10,6 @@ import { useSearchParams } from "next/navigation";
 export default function FilterData() {
   const searchParams = useSearchParams();
   const [isOpenFilter, setIsFilterOpen] = useState(searchParams.size > 0 ? true : false);
-   console.log(searchParams.size) 
 
   return (
     <div>

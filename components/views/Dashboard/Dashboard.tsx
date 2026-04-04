@@ -14,7 +14,7 @@ export default function Dashboard({
   searchParams,
 }: {
   searchParams: { [key: string]: string | string[] | undefined };
-}) {
+}) { 
   const isDetail = searchParams.isDetail;
   const isDetailSickness = searchParams.isDetailSickness;
   const checkup = searchParams.checkup;

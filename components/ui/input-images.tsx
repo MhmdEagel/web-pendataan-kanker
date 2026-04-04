@@ -50,18 +50,18 @@ export function FormImageUpload({
   existingImages = [],
 }: FormImageUploadProps) {
   /* ================= PREVIEW STATE (INIT LANGSUNG) ================= */
-  const [previews, setPreviews] = useState<PreviewImage[]>(
-    () =>
-      existingImages.map((img) => ({
-        id: img.id,
-        name: img.fileName,
-        previewUrl: img.url,
-        isNew: false,
-      })),
+  const [previews, setPreviews] = useState<PreviewImage[]>(() =>
+    existingImages.map((img) => ({
+      id: img.id,
+      name: img.fileName,
+      previewUrl: img.url,
+      isNew: false,
+    })),
   );
 
   const selectedValues: KlinisValue[] = form.watch("klinisValues") ?? [];
   const isChecked = selectedValues.includes(klinisValue);
+  const hasImages = previews.length > 0;
 
   return (
     <>
@@ -71,9 +71,9 @@ export function FormImageUpload({
         name="klinisValues"
         render={({ field }) => (
           <FormItem className="flex items-center gap-2">
-            <Checkbox
-              checked={isChecked}
-              onCheckedChange={(checked) => {
+              <Checkbox
+                checked={isChecked}
+                onCheckedChange={(checked) => {
                 if (checked) {
                   field.onChange([...field.value, klinisValue]);
                 } else {
@@ -122,22 +122,14 @@ export function FormImageUpload({
               const handleDelete = (item: PreviewImage) => {
                 if (item.isNew) {
                   // image baru → hapus dari RHF
-                  field.onChange(
-                    files.filter((f) => f.name !== item.name),
-                  );
+                  field.onChange(files.filter((f) => f.name !== item.name));
                 } else {
                   // image lama → tandai buat delete backend
-                  const deleted =
-                    form.getValues("deletedKlinisImageIds") ?? [];
-                  form.setValue("deletedKlinisImageIds", [
-                    ...deleted,
-                    item.id,
-                  ]);
+                  const deleted = form.getValues("deletedKlinisImageIds") ?? [];
+                  form.setValue("deletedKlinisImageIds", [...deleted, item.id]);
                 }
 
-                setPreviews((prev) =>
-                  prev.filter((p) => p.name !== item.name),
-                );
+                setPreviews((prev) => prev.filter((p) => p.name !== item.name));
               };
 
               return (
@@ -184,6 +176,7 @@ export function FormImageUpload({
 
           {/* ================= CAPTION ================= */}
           <FormField
+            control={form.control}
             name={`klinisCaptions.${klinisValue}`}
             render={({ field }) => (
               <FormItem>
@@ -223,12 +216,7 @@ function ImageItem({
       >
         {imageName}
       </Link>
-      <Button
-        type="button"
-        size="icon"
-        variant="ghost"
-        onClick={onDelete}
-      >
+      <Button type="button" size="icon" variant="ghost" onClick={onDelete}>
         <X className="size-4" />
       </Button>
     </div>

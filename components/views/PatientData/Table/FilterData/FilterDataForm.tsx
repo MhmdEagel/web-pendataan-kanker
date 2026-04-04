@@ -24,9 +24,12 @@ import DatePicker from "@/components/ui/date-picker";
 import ComboBox from "@/components/ui/combo-box";
 import { kabupaten } from "@/components/constants/kabupaten.constant";
 import { epidemiologi, terapi } from "@/components/constants/input.constant";
+import { useSearchParams } from "next/navigation";
 
 export default function FilterDataForm() {
   const { form, handleFilterData, router } = useFilterData();
+  const searchParams = useSearchParams();
+
   return (
     <Form {...form}>
       <form
@@ -92,7 +95,7 @@ export default function FilterDataForm() {
             </FormItem>
           )}
         />
-        <DatePicker name="tanggal_lahir" form={form} />
+        <DatePicker label="Tanggal Lahir" name="tanggal_lahir" form={form} />
         <FormField
           control={form.control}
           name="asal_daerah"
@@ -268,15 +271,18 @@ export default function FilterDataForm() {
         />
 
         <div className="col-span-2 flex justify-end space-x-2 ">
-          <Button
-            type="button"
-            onClick={() => {
-              router.replace("/dashboard/data-pasien");
-            }}
-            className="w-fit bg-red-600 hover:bg-red-600/80"
-          >
-            Hapus Filter
-          </Button>
+          {searchParams.size > 0 && (
+            <Button
+              type="button"
+              onClick={() => {
+                router.replace("/dashboard/data-pasien");
+              }}
+              className="w-fit bg-red-600 hover:bg-red-600/80"
+            >
+              Hapus Filter
+            </Button>
+          )}
+
           <Button
             type="submit"
             className="w-fit bg-primary hover:bg-primary/80"

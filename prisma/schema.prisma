@@ -25,6 +25,9 @@ model Patient {
   nik                      String                 @unique
   jenis_kelamin            Gender
   tanggal_lahir            DateTime
+  tanggal_input            DateTime               @default(now())
+  no_register              String
+  no_rm                    String
   asal_daerah              String
   pekerjaan_ayah           String
   pekerjaan_ibu            String
@@ -34,6 +37,7 @@ model Patient {
   terapi                   String
   outcome                  String
   fifth_survivor           String
+  fifth_survivor_tahun     DateTime?
   nomor_telepon            String
   berat                    Int
   tinggi                   Int
@@ -92,7 +96,7 @@ model KlinisImage {
 model Epidemiologi {
   id               String        @id @default(cuid())
   value            String
-  tumorDescription String?
+  tumorDescription String?       @db.Text
   patient          Patient?
   tumorImages      TumorImages[]
 }

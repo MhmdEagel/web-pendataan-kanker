@@ -22,7 +22,6 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { kabupaten } from "@/components/constants/kabupaten.constant";
-import { cn } from "@/lib/utils";
 
 import { Spinner } from "@/components/ui/spinner";
 import { Label } from "@/components/ui/label";
@@ -34,6 +33,7 @@ import { EpidemiologiImageInput } from "@/components/ui/epidemiologi-inputs";
 import { PemeriksaanFisikImageInput } from "@/components/ui/pemeriksaan-fisik-input";
 import { useEditPatientData } from "./useEditPatientData";
 import { PatientExtended } from "@/types/Data";
+import YearPicker from "@/components/ui/year-picker";
 
 interface PropTypes {
   data: PatientExtended;
@@ -42,38 +42,19 @@ interface PropTypes {
 export default function EditPatientData(props: PropTypes) {
   const { data } = props;
   const router = useRouter();
-  const { form, handleNewPatientData, activeTab, setActiveTab, isPending } =
-    useEditPatientData({ patientData: data });
+  const { form, handleEditPatientData, isPending } = useEditPatientData({
+    patientData: data,
+  });
+
+  console.log(data.patient.fifth_survivor);
+
+  const fifthSurvivor = form.watch("fifth_survivor");
   return (
     <Card className="p-8">
-      <div className="flex">
-        <Button
-          className={cn("rounded-r-none border", {
-            "bg-primary hover:bg-primary/90 text-white":
-              activeTab === "form_tambah",
-          })}
-          onClick={() => setActiveTab("form_tambah")}
-          type="button"
-          variant={"ghost"}
-        >
-          Form
-        </Button>
-        <Button
-          className={cn("rounded-l-none border", {
-            "bg-primary hover:bg-primary/90 text-white":
-              activeTab === "upload_excel",
-          })}
-          onClick={() => setActiveTab("upload_excel")}
-          type="button"
-          variant={"ghost"}
-        >
-          Upload{" "}
-        </Button>
-      </div>
       <CardContent>
         <Form {...form}>
           <form
-            onSubmit={form.handleSubmit(handleNewPatientData)}
+            onSubmit={form.handleSubmit(handleEditPatientData)}
             className="flex flex-col gap-4"
           >
             <Card>
@@ -81,6 +62,39 @@ export default function EditPatientData(props: PropTypes) {
                 <div className="text-lg font-bold">Identitas Pasien</div>
               </CardHeader>
               <CardContent className="grid md:grid-cols-2 gap-4">
+                <DatePicker label="Tanggal" name="tanggal_input" form={form} />
+                <FormField
+                  {...form.register("no_register")}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Nomor Register</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Nomor Register"
+                          {...field}
+                          value={field.value || ""}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  {...form.register("no_rm")}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Nomor RM</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Nomor RM"
+                          {...field}
+                          value={field.value || ""}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
                 <FormField
                   {...form.register("nik")}
                   render={({ field }) => (
@@ -136,7 +150,11 @@ export default function EditPatientData(props: PropTypes) {
                     </FormItem>
                   )}
                 />
-                <DatePicker name="tanggal_lahir" form={form} />
+                <DatePicker
+                  label={"Tanggal Lahir"}
+                  name="tanggal_lahir"
+                  form={form}
+                />
                 <FormField
                   {...form.register("asal_daerah")}
                   render={({ field }) => (
@@ -146,6 +164,7 @@ export default function EditPatientData(props: PropTypes) {
                         <ComboBox
                           options={kabupaten}
                           field={field}
+                          defaultValue={data.patient.asal_daerah}
                           placeholder="Asal daerah..."
                         />
                       </FormControl>
@@ -289,26 +308,35 @@ export default function EditPatientData(props: PropTypes) {
                     </div>
                   </div>
                   <Label>Klinis</Label>
+                  {Object.keys(form.formState.errors).length > 0 &&
+                  form.formState.errors.klinisValues ? (
+                    <div className="text-destructive">
+                      {form.formState.errors.klinisValues.message}
+                    </div>
+                  ) : null}
                   <FormImageUpload
                     klinisValue="LABORATORIUM"
                     form={form}
                     label="Laboratorium"
-                    existingImages={data.klinisData.images}
+                    existingImages={data.klinisData.LABORATORIUM.images}
                   />
                   <FormImageUpload
                     klinisValue="RADIOLOGI"
                     form={form}
                     label="Radiologi"
+                    existingImages={data.klinisData.RADIOLOGI.images}
                   />
                   <FormImageUpload
                     klinisValue="PATOLOGI_ANATOMI"
                     form={form}
                     label="Patologi Anatomi"
+                    existingImages={data.klinisData.PATOLOGI_ANATOMI.images}
                   />
                   <FormImageUpload
                     klinisValue="PEMERIKSAAN_JANTUNG"
                     form={form}
                     label="Pemeriksaan Jantung"
+                    existingImages={data.klinisData.PEMERIKSAAN_JANTUNG.images}
                   />
                 </div>
                 {/* Second Column */}
@@ -345,10 +373,16 @@ export default function EditPatientData(props: PropTypes) {
                       </FormItem>
                     )}
                   />
-                  <PemeriksaanFisikImageInput form={form} />
+                  <PemeriksaanFisikImageInput 
+                    form={form} 
+                    existingImages={data.patient.pemeriksaanFisikDetail?.images || []}
+                    existingCaption={data.patient.pemeriksaanFisikDetail?.description || ""}
+                  />
                   <EpidemiologiImageInput
                     form={form}
                     label="Penyelidikan Epidemiologi"
+                    existingImages={data.patient.tumorImages || []}
+                    existingDescription={data.patient.tumorDescription || ""}
                   />
                   <FormField
                     {...form.register("terapi")}
@@ -444,7 +478,7 @@ export default function EditPatientData(props: PropTypes) {
                         <FormControl>
                           <Select
                             onValueChange={field.onChange}
-                            defaultValue={field.value || ""}
+                            defaultValue={field.value}
                           >
                             <SelectTrigger className="w-full">
                               <SelectValue placeholder="Pilih" />
@@ -459,6 +493,13 @@ export default function EditPatientData(props: PropTypes) {
                       </FormItem>
                     )}
                   />
+                  {fifthSurvivor === "YA" && (
+                    <YearPicker
+                      form={form}
+                      name="fifth_survivor_tahun"
+                      label="Tahun Fifth Survivor"
+                    />
+                  )}
                 </div>
               </CardContent>
             </Card>

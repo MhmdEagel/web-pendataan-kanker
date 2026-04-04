@@ -24,7 +24,6 @@ export const useFilterData = () => {
   });
 
   const handleFilterData = (data: z.infer<typeof filterSchema>) => {
-    console.log(data);
     const query = new URLSearchParams();
     Object.entries(data).forEach(([key, value]) => {
       if (value) {

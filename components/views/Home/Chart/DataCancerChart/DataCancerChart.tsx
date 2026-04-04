@@ -9,8 +9,15 @@ export default async function DataCancerChart() {
   const data: IChartData[] | null = await getPatientCountWithFill();
   const total = await getAllPatientCount();
   const outome = await getAllPatientCountByStatus();
-  if (!data) {
-    return;
+  if (!data || data.length === 0) {
+    return (
+      <div className="mx-auto h-[300px] flex justify-center items-center flex-col gap-2">
+        <div className="font-bold text-xl text-destructive">
+          Terjadi Kesalahan.
+        </div>
+        <div>Gagal memuat chart data pasien</div>
+      </div>
+    );
   }
   return (
     <>

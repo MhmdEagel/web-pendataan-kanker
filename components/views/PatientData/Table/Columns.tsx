@@ -2,22 +2,28 @@
 
 // import { deleteData } from "@/actions/delete-data";
 import { Button } from "@/components/ui/button";
-import { cn, generateDateString,  } from "@/lib/utils";
+import { generateDateString } from "@/lib/utils";
 // import { Mustahik } from "@/types/Data";
 import { ColumnDef } from "@tanstack/react-table";
-import { ExternalLink, Pen, Trash } from "lucide-react";
+import { EllipsisVertical, ExternalLink } from "lucide-react";
 import Link from "next/link";
 // import { Checkbox } from "@/components/ui/checkbox";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { Patient } from "@/types/Data";
 import DeleteBtn from "./DeleteBtn/DeleteBtn";
+import { DeleteDialog } from "./DeleteDialog/DeleteDialog";
+import Actions from "./Actions/Actions";
 type PatientTable = Omit<
   Patient,
   "pekerjaan_ayah" | "pekerjaan_ibu" | "diagnosa" | "terapi" | "fifth_survivor"
 >;
 
 export const columns: ColumnDef<PatientTable>[] = [
-/*
+  /*
 multiple select
   {
     id: "select",
@@ -47,10 +53,10 @@ multiple select
     accessorKey: "jenis_kelamin",
     header: "Jenis Kelamin",
     cell: ({ row }) => {
-    const value: string = row.getValue("jenis_kelamin")
-    const label = value.split("_").join(" ")
-    return <span className="capitalize">{label.toLowerCase()}</span>
-  }
+      const value: string = row.getValue("jenis_kelamin");
+      const label = value.split("_").join(" ");
+      return <span className="capitalize">{label.toLowerCase()}</span>;
+    },
   },
   {
     accessorKey: "tanggal_lahir",
@@ -80,6 +86,12 @@ multiple select
   {
     accessorKey: "outcome",
     header: "Outcome",
+    cell: ({row}) => {
+      const {outcome} = row.original
+      return (
+        <div className="capitalize">{outcome.split("_").join(" ")}</div>
+      )
+    }
   },
   {
     id: "actions",
@@ -87,34 +99,7 @@ multiple select
     cell: ({ row }) => {
       const { id } = row.original;
       return (
-        <Popover>
-          <PopoverTrigger asChild>
-            <Button size={"icon"} className="bg-foreground hover:bg-foreground/90">
-              <ExternalLink />
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent side="left" className="w-fit" >
-            <div className="gap-4 flex flex-col">
-              <DeleteBtn patientId={id} />
-              {/* <Link href={`/dashboard/edit-data/${id}`}>
-                <Button
-                variant={"ghost"}
-                >
-                  <Pen />
-                  Edit
-                </Button>
-              </Link> */}
-              <Link href={`/dashboard/data-pasien/${id}`}>
-                <Button
-                  variant={"ghost"}
-                >
-                  <ExternalLink />
-                  Detail
-                </Button>
-              </Link>
-            </div>
-          </PopoverContent>
-        </Popover>
+        <Actions id={id} />
       );
     },
   },

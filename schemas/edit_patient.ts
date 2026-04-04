@@ -22,7 +22,7 @@ const imageSchema = z
     message: "File harus berupa gambar",
   });
 
-export const newPatientSchema = z
+export const editPatientSchema = z
   .object({
     no_register: z
       .string({
@@ -163,6 +163,9 @@ export const newPatientSchema = z
     pemeriksaanFisikCaption: z.string().optional(),
     tumorImages: z.array(imageSchema).optional(),
     tumorDescription: z.string().optional(),
+    deletedKlinisImageIds: z.array(z.string()).optional(),
+    deletedPemeriksaanFisikImageIds: z.array(z.string()).optional(),
+    deletedTumorImageIds: z.array(z.string()).optional(),
   })
   .superRefine((data, ctx) => {
     if (data.fifth_survivor === "YA" && !data.fifth_survivor_tahun) {

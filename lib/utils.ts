@@ -20,6 +20,10 @@ export function generateDateString(date: Date) {
   return dateString;
 }
 
+export function getDateYear(date: Date) {
+  return dayjs(date).year()
+}
+
 export function getKabupatenColorAndId(
   kabupaten: string
 ): { id: string; fill: string } | null {

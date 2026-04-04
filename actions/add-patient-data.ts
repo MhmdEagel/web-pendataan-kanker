@@ -81,9 +81,12 @@ export async function addPatientData(data: z.infer<typeof newPatientSchema>) {
         terapi: patient.terapi.join(", "), // karena di prisma String
         outcome: patient.outcome,
         fifth_survivor: patient.fifth_survivor,
+        fifth_survivor_tahun: patient.fifth_survivor_tahun,
         berat: patient.berat,
         tinggi: patient.tinggi,
         nomor_telepon: patient.nomor_telepon,
+        no_register: patient.no_register,
+        no_rm: patient.no_rm,
 
         // ======================
         // PEMERIKSAAN FISIK

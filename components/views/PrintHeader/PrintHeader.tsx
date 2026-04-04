@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 
 export default function PrintHeader() {
@@ -18,8 +20,8 @@ export default function PrintHeader() {
         <Image
           src={"/assets/logo/logo_riau.svg"}
           className="block"
-          width={50}
-          height={50}
+          width={40}
+          height={40}
           alt="Logo Provinsi Riau"
         />
       </div>
