@@ -182,15 +182,22 @@ export const getPatientCountWithFill = async () => {
       by: ["asal_daerah"],
       _count: { id: true },
     });
-    return res.map((r) => {
+    const mapped = res.map((r) => {
       const colorData = getKabupatenColorAndId(r.asal_daerah);
       return {
         kabupaten: colorData?.id,
         patients: r._count.id,
         fill: colorData?.fill,
+        rawDaerah: r.asal_daerah,
       };
     });
-  } catch {
+    const valid = mapped.filter((m) => m.kabupaten && m.fill);
+    if (valid.length === 0 && res.length > 0) {
+      console.warn("No kabupaten matched in getPatientCountWithFill. Raw values:", res.map(r => r.asal_daerah));
+    }
+    return valid;
+  } catch (error) {
+    console.error("Error in getPatientCountWithFill:", error);
     return null;
   }
 };

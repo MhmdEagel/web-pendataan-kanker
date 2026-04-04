@@ -27,8 +27,16 @@ export function getDateYear(date: Date) {
 export function getKabupatenColorAndId(
   kabupaten: string
 ): { id: string; fill: string } | null {
-  const res = kabupatenColor.find((item) => item.label == kabupaten);
+  if (!kabupaten) return null;
+  
+  const normalizedInput = kabupaten.trim().toLowerCase();
+  
+  const res = kabupatenColor.find(
+    (item) => item.label.toLowerCase() === normalizedInput
+  );
+  
   if (!res) {
+    console.warn(`Kabupaten "${kabupaten}" not found in kabupatenColor`);
     return null;
   }
   return { id: res.id, fill: res.fill };
