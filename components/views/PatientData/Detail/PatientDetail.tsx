@@ -31,7 +31,7 @@ async function DetailDataCard({ patientId }: { patientId: string }) {
   console.log(data);
 
   if (!data) {
-    return (  
+    return (
       <div className="flex flex-col text-center justify-center items-center min-h-[400px] space-y-4">
         <div className="text-foreground text-2xl font-bold mb-2">
           Data Tidak Ditemukan
@@ -47,10 +47,18 @@ async function DetailDataCard({ patientId }: { patientId: string }) {
 
   const { patient, epidemiologiValues, klinisData, klinisValues } = data;
 
-  console.log(patient.fifth_survivor_tahun)
+  console.log(patient.fifth_survivor_tahun);
 
   return (
     <div className="grid gap-4">
+      <div>
+        <Button>
+          <Link href={"/dashboard/data-pasien"}>Kembali</Link>
+        </Button>
+        <Button>
+          <Link href={`/dashboard/data-pasien/${patientId}/edit`}>Edit</Link>
+        </Button>
+      </div>
       <Card>
         <CardHeader>
           <div className="font-bold">Identitas Pasien</div>
