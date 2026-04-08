@@ -1,12 +1,10 @@
-"use client";
 
-import Image from "next/image";
 
 export default function PrintHeader() {
   return (
     <div className="hidden text-center print:flex flex-col justify-center mb-4 border-b border-black/80 pb-3">
       <div className="flex gap-4 justify-between">
-        <Image
+        <img
           src={"/assets/logo/logo_rsud.png"}
           className="block"
           width={70}
@@ -17,7 +15,7 @@ export default function PrintHeader() {
           <div>Data Cancer Provinsi Riau</div>
           <div>RSUD Arifin Achmad</div>
         </div>
-        <Image
+        <img
           src={"/assets/logo/logo_riau.svg"}
           className="block"
           width={40}
