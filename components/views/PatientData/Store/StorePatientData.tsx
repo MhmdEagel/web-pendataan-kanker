@@ -23,13 +23,6 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { kabupaten } from "@/components/constants/kabupaten.constant";
-import { cn } from "@/lib/utils";
-import {
-  Dropzone,
-  DropzoneContent,
-  DropzoneEmptyState,
-} from "@/components/ui/dropzone";
-import { UploadIcon } from "lucide-react";
 import { Spinner } from "@/components/ui/spinner";
 import { Label } from "@/components/ui/label";
 import { terapi } from "@/components/constants/input.constant";
@@ -39,93 +32,18 @@ import { FormImageUpload } from "@/components/ui/input-images";
 import { EpidemiologiImageInput } from "@/components/ui/epidemiologi-inputs";
 import { PemeriksaanFisikImageInput } from "@/components/ui/pemeriksaan-fisik-input";
 import YearPicker from "@/components/ui/year-picker";
-
 export default function EditPatientData() {
   const router = useRouter();
-
   const {
     form,
     handleNewPatientData,
-    activeTab,
-    setActiveTab,
-    // files,
-    // isPendingUpload,
     isPending,
-    // handleDrop,
   } = useStorePatientData();
-
   const fifthSurvivor = form.watch("fifth_survivor");
-
   return (
     <Card className="p-8">
-      <div className="flex">
-        <Button
-          className={cn("rounded-r-none border", {
-            "bg-primary hover:bg-primary/90 text-white":
-              activeTab === "form_tambah",
-          })}
-          onClick={() => setActiveTab("form_tambah")}
-          type="button"
-          variant={"ghost"}
-        >
-          Form
-        </Button>
-        <Button
-          className={cn("rounded-l-none border", {
-            "bg-primary hover:bg-primary/90 text-white":
-              activeTab === "upload_excel",
-          })}
-          onClick={() => setActiveTab("upload_excel")}
-          type="button"
-          variant={"ghost"}
-        >
-          Upload{" "}
-        </Button>
-      </div>
       <CardContent>
-        {/* {activeTab === "upload_excel" ? (
-          <>
-            <div className="text-lg font-bold mb-2">Upload File</div>
-            <Dropzone
-              maxFiles={1}
-              accept={{
-                "application/vnd.ms-excel": [],
-                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet":
-                  [],
-                "application/octet-stream": [],
-              }}
-              onDrop={handleDrop}
-              maxSize={1024 * 1024 * 10}
-              minSize={1024}
-              onError={console.error}
-              src={files}
-            >
-              <DropzoneEmptyState>
-                <div className="flex flex-col items-center justify-center">
-                  <div className="flex size-8 items-center justify-center rounded-md bg-muted text-muted-foreground">
-                    <UploadIcon size={16} />
-                  </div>
-                  <p className="my-2 w-full truncate text-wrap font-medium text-sm">
-                    Upload File Excel
-                  </p>
-                  <p className="w-full truncate text-wrap text-muted-foreground text-xs">
-                    Klik untuk upload
-                  </p>
-                </div>
-              </DropzoneEmptyState>
-              <DropzoneContent>
-                {isPendingUpload ? (
-                  <Spinner />
-                ) : (
-                  <p className="w-full text-wrap text-muted-foreground text-xs">
-                    Redirecting....
-                  </p>
-                )}
-              </DropzoneContent>
-            </Dropzone>{" "}
-          </>
-        ) : null} */}
-        {activeTab == "form_tambah" ? (
+        
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(handleNewPatientData)}
@@ -590,7 +508,7 @@ export default function EditPatientData() {
               </div>
             </form>
           </Form>
-        ) : null}
+        
       </CardContent>
     </Card>
   );

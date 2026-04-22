@@ -75,108 +75,140 @@ function mapKlinisValue(): KlinisValue {
 
 /* ================== SEED ================== */
 async function seed() {
-  console.log("🌱 Seeding patient...");
+  console.log("🌱 Seeding (batch mode)...");
+
+  // ❌ clear
+  await prisma.klinisImage.deleteMany({});
+  await prisma.klinisDetail.deleteMany({});
+  await prisma.klinis.deleteMany({});
   await prisma.patient.deleteMany({});
+  await prisma.epidemiologi.deleteMany({});
+  await prisma.tumorImages.deleteMany({});
+  await prisma.pemeriksaanFisikImage.deleteMany({});
+  await prisma.pemeriksaanFisikDetail.deleteMany({});
 
+  // ================== ARRAY ==================
+  const pemeriksaanData: any[] = [];
+  const pemeriksaanImageData: any[] = [];
+
+  const epidemiologiData: any[] = [];
+  const tumorImageData: any[] = [];
+
+  const patientData: any[] = [];
+
+  const klinisData: any[] = [];
+  const detailData: any[] = [];
+  const klinisImageData: any[] = [];
+
+  // ================== GENERATE ==================
   for (const daerah of kabupaten) {
-    const totalPatient = faker.number.int({ min: 50, max: 100 });
+    const total = faker.number.int({ min: 50, max: 100 });
 
-    console.log(`📍 ${daerah}: ${totalPatient} pasien`);
+    console.log(`📍 ${daerah}: ${total}`);
 
-    for (let i = 0; i < totalPatient; i++) {
-      const terapiDipilih = faker.helpers
-        .arrayElements(terapiSet, faker.number.int({ min: 1, max: 3 }))
-        .join(", ");
+    for (let i = 0; i < total; i++) {
+      const pemeriksaanId = faker.string.uuid();
+      const epidemiologiId = faker.string.uuid();
+      const patientId = faker.string.uuid();
+      const klinisId = faker.string.uuid();
+      const detailId = faker.string.uuid();
 
-      // 1️⃣ Pemeriksaan Fisik
-      const pemeriksaanFisik = await prisma.pemeriksaanFisikDetail.create({
-        data: {
-          description: faker.lorem.sentence(),
-          pemeriksaanImages: {
-            create: {
-              fileName: "fisik.jpg",
-              publicId: faker.string.uuid(),
-              url: faker.image.url(),
-            },
-          },
-        },
+      // pemeriksaan
+      pemeriksaanData.push({
+        id: pemeriksaanId,
+        description: faker.lorem.sentence(),
       });
 
-      // 2️⃣ Epidemiologi
-      const epidemiologi = await prisma.epidemiologi.create({
-        data: {
-          value: faker.helpers.arrayElement(epidemiologiSet),
-          tumorDescription: faker.lorem.paragraph(),
-          tumorImages: {
-            create: [
-              {
-                fileName: "tumor.jpg",
-                publicId: faker.string.uuid(),
-                url: faker.image.url(),
-              },
-            ],
-          },
-        },
+      pemeriksaanImageData.push({
+        pemeriksaanFisikDetailId: pemeriksaanId,
+        fileName: "fisik.jpg",
+        publicId: faker.string.uuid(),
+        url: faker.image.url(),
       });
 
-      // 3️⃣ Patient
-      const patient = await prisma.patient.create({
-        data: {
-          nama: faker.person.fullName(),
-          nik: randomNIK(),
-          jenis_kelamin: faker.helpers.arrayElement([
-            Gender.LAKI_LAKI,
-            Gender.PEREMPUAN,
-          ]),
-          tanggal_lahir: faker.date.past({ years: 20 }),
-          no_register: faker.string.alphanumeric(10),
-          no_rm: faker.string.alphanumeric(8),
-          asal_daerah: daerah,
-          pekerjaan_ayah: faker.helpers.arrayElement(pekerjaanAyah),
-          pekerjaan_ibu: faker.helpers.arrayElement(pekerjaanIbu),
-          dokter: faker.helpers.arrayElement(dokterSet),
-          rumah_sakit: `RS ${faker.company.name()}`,
-          diagnosa: faker.helpers.arrayElement(diagnosaSet),
-          terapi: terapiDipilih,
-          outcome: faker.helpers.arrayElement(outcomeSet),
-          fifth_survivor: faker.helpers.arrayElement(fifthSet),
-          fifth_survivor_tahun: faker.datatype.boolean()
-            ? faker.date.past()
-            : null,
-          nomor_telepon: faker.phone.number(),
-          berat: faker.number.int({ min: 10, max: 80 }),
-          tinggi: faker.number.int({ min: 60, max: 180 }),
-
-          epidemiologiId: epidemiologi.id,
-          pemeriksaanFisikDetailId: pemeriksaanFisik.id,
-        },
+      // epidemiologi
+      epidemiologiData.push({
+        id: epidemiologiId,
+        value: faker.helpers.arrayElement(epidemiologiSet),
+        tumorDescription: faker.lorem.paragraph(),
       });
 
-      // 4️⃣ Klinis
-      await prisma.klinis.create({
-        data: {
-          patientId: patient.id,
-          details: {
-            create: [
-              {
-                value: mapKlinisValue(),
-                caption: faker.lorem.sentence(),
-                images: {
-                  create: {
-                    fileName: "klinis.jpg",
-                    publicId: faker.string.uuid(),
-                    url: faker.image.url(),
-                  },
-                },
-              },
-            ],
-          },
-        },
+      tumorImageData.push({
+        epidemiologiId,
+        fileName: "tumor.jpg",
+        publicId: faker.string.uuid(),
+        url: faker.image.url(),
+      });
+
+      // patient
+      patientData.push({
+        id: patientId,
+        nama: faker.person.fullName(),
+        nik: randomNIK(),
+        jenis_kelamin: faker.helpers.arrayElement([
+          Gender.LAKI_LAKI,
+          Gender.PEREMPUAN,
+        ]),
+        tanggal_lahir: faker.date.past({ years: 20 }),
+        no_register: faker.string.alphanumeric(10),
+        no_rm: faker.string.alphanumeric(8),
+        asal_daerah: daerah,
+        pekerjaan_ayah: faker.helpers.arrayElement(pekerjaanAyah),
+        pekerjaan_ibu: faker.helpers.arrayElement(pekerjaanIbu),
+        dokter: faker.helpers.arrayElement(dokterSet),
+        rumah_sakit: `RS ${faker.company.name()}`,
+        diagnosa: faker.helpers.arrayElement(diagnosaSet),
+        terapi: faker.helpers
+          .arrayElements(terapiSet, faker.number.int({ min: 1, max: 3 }))
+          .join(", "),
+        outcome: faker.helpers.arrayElement(outcomeSet),
+        fifth_survivor: faker.helpers.arrayElement(fifthSet),
+        fifth_survivor_tahun: faker.datatype.boolean()
+          ? faker.date.past()
+          : null,
+        nomor_telepon: faker.phone.number(),
+        berat: faker.number.int({ min: 10, max: 80 }),
+        tinggi: faker.number.int({ min: 60, max: 180 }),
+        epidemiologiId,
+        pemeriksaanFisikDetailId: pemeriksaanId,
+      });
+
+      // klinis
+      klinisData.push({
+        id: klinisId,
+        patientId,
+      });
+
+      detailData.push({
+        id: detailId,
+        klinisId,
+        value: mapKlinisValue(),
+        caption: faker.lorem.sentence(),
+      });
+
+      klinisImageData.push({
+        detailId,
+        fileName: "klinis.jpg",
+        publicId: faker.string.uuid(),
+        url: faker.image.url(),
       });
     }
   }
 
-  console.log("✅ Seeding selesai");
+  // ================== INSERT ==================
+  await prisma.pemeriksaanFisikDetail.createMany({ data: pemeriksaanData });
+  await prisma.pemeriksaanFisikImage.createMany({ data: pemeriksaanImageData });
+
+  await prisma.epidemiologi.createMany({ data: epidemiologiData });
+  await prisma.tumorImages.createMany({ data: tumorImageData });
+
+  await prisma.patient.createMany({ data: patientData });
+
+  await prisma.klinis.createMany({ data: klinisData });
+  await prisma.klinisDetail.createMany({ data: detailData });
+  await prisma.klinisImage.createMany({ data: klinisImageData });
+
+  console.log("✅ SEEDING SUPER CEPAT SELESAI");
 }
 
 seed()

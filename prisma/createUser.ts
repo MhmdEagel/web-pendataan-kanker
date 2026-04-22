@@ -3,13 +3,12 @@ import bcrypt from "bcryptjs";
 const prisma = new PrismaClient();
 async function main() {
   // Hash Password
-  const hashedPassword = await bcrypt.hash("Pekanbaru123!", 10); // ganti password
+  const hashedPassword = await bcrypt.hash("12345678", 10); // ganti password
   console.log("🙍‍♂️ Mebuat user baru...");
-  await prisma.user.deleteMany({})
   await prisma.user.create({
     data: {
-      email: "muhammadeagel@gmail.com", // ganti email
-      fullname: "Muhammad Eagel Triutama", // ganti nama
+      email: "wagianto190617@gmail.com", // ganti email
+      fullname: "Wagianto", // ganti nama
       password: hashedPassword,
     },
   });
