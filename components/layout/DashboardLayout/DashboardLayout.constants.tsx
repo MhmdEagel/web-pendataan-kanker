@@ -6,20 +6,20 @@ const SIDEBAR_ITEMS = [
     items: [
       {
         key: "dashboard-item-1",
-        label: "Dashboard",
-        href: "/dashboard",
+        label: "Beranda",
+        href: "/beranda",
         icon: <ChartBar size={18} />,
       },
       {
         key: "dashboard-item-2",
         label: "Data Pasien",
-        href: "/dashboard/data-pasien",
+        href: "/beranda/data-pasien",
         icon: <Table size={18} />,
       },
       {
         key: "dashboard-item-4",
         label: "Pengaturan",
-        href: "/dashboard/pengaturan",
+        href: "/beranda/pengaturan",
         icon: <Settings size={18} />,
       },
     ],

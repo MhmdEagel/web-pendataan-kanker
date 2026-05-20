@@ -1,26 +1,26 @@
 export const DASHBOARD_TITLE = [
   {
-    path: "/dashboard",
-    title: "Dashboard",
+    path: "/beranda",
+    title: "Beranda",
   },
   {
-    path: "/dashboard/data-pasien",
+    path: "/beranda/data-pasien",
     title: "Data Pasien",
   },
   { 
-    path: "/dashboard/data-pasien/tambah-data",
+    path: "/beranda/data-pasien/tambah-data",
     title: "Tambah Data",
   },
   {
-    path: "/dashboard/data-pasien/detail-data",
+    path: "/beranda/data-pasien/detail-data",
     title: "Detail Data",
   },
   {
-    path: "/dashboard/data-pasien/edit-data",
+    path: "/beranda/data-pasien/edit-data",
     title: "Edit Data",
   },
   {
-    path: "/dashboard/pengaturan",
+    path: "/beranda/pengaturan",
     title: "Pengaturan",
   },
 ];

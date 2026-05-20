@@ -2,7 +2,6 @@ import Image from "next/image";
 import Chart from "./Chart";
 import PatientMap from "../PatientMap/PatientMap";
 import StatusTableLayer from "../StatusTable/StatusTableLayer";
-import PrintHeader from "../PrintHeader/PrintHeader";
 import PrintBtn from "@/components/ui/print-btn";
 
 export default function Home() {
@@ -36,7 +35,6 @@ export default function Home() {
         <Chart />
       </div>
       <div className="mb-16">
-        <PrintHeader />
         <StatusTableLayer />
         <PrintBtn />
       </div>

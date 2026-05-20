@@ -8,7 +8,6 @@ import FifthSurvivorTable from "./DetailSicknessTable/FifthSurvivorTable/FifthSu
 import KlinisSicknessTable from "./DetailSicknessTable/KlinisTable/KlinisSicknessTable";
 import OutcomeTable from "./DetailSicknessTable/OutcomeTable/OutcomeTable";
 import TerapiTable from "./DetailSicknessTable/TerapiTable/TerapiTable";
-import PrintHeader from "../PrintHeader/PrintHeader";
 
 export default function Dashboard({
   searchParams,
@@ -29,7 +28,6 @@ export default function Dashboard({
           return (
             <>
               <div className="print:break-after-page print:mt-8">
-                <PrintHeader />
                 <div className="text-xl font-bold print:mb-4">
                   Tabel Klinis - Laki-Laki
                 </div>
@@ -48,7 +46,6 @@ export default function Dashboard({
           return (
             <>
               <div className="print:break-after-page print:mt-8">
-                <PrintHeader />
                 <div className="text-xl font-bold print:mb-4">
                   Tabel Terapi - Laki-Laki
                 </div>
@@ -67,7 +64,6 @@ export default function Dashboard({
           return (
             <>
               <div className="print:break-after-page print:mt-8">
-                <PrintHeader />
                 <div className="text-xl font-bold print:mb-4">
                   Tabel Outcome - Laki-Laki
                 </div>
@@ -86,7 +82,6 @@ export default function Dashboard({
           return (
             <>
               <div className="print:break-after-page print:mt-8">
-                <PrintHeader />
                 <div className="text-xl font-bold print:mb-4">
                   Tabel 5th Survivor - Laki-Laki
                 </div>
@@ -105,7 +100,6 @@ export default function Dashboard({
           return (
             <>
               <div className="print:break-after-page print:mt-8">
-                <PrintHeader />
                 <div className="text-xl font-bold print:mb-4">
                   Tabel Penyelidikan Epidemiologi - Laki-Laki
                 </div>
